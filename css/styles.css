@@ -204,6 +204,20 @@
     object-fit: cover;
     object-position: center;
   }
+
+  /* --- About --- */
+.about__content {
+    max-width: 40rem;
+  }
+  
+  .about__content p {
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text-muted);
+  }
+  
+  .about__content p:last-child {
+    margin-bottom: 0;
+  }
   
   /* --- Contact form --- */
   .contact-form {
