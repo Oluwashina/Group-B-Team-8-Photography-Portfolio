@@ -223,6 +223,16 @@
   .contact-form {
     max-width: 32rem;
   }
+
+  .contact__intro {
+    max-width: 40rem;
+    margin: 0 0 var(--space-md);
+    color: var(--color-text-muted);
+  }
+  
+  .contact__book {
+    font-weight: 600;
+  }
   
   .form-field {
     margin-bottom: var(--space-md);
@@ -259,6 +269,37 @@
   
   .contact-form button:hover {
     filter: brightness(1.08);
+  }
+
+  .contact-form__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+  
+  .contact-form__row .form-field {
+    flex: 1 1 12rem;
+    margin-bottom: 0;
+  }
+  
+  .contact-form__row + .form-field {
+    margin-top: var(--space-md);
+  }
+  
+  .contact-form__submit {
+    margin-top: var(--space-sm);
+    width: 100%;
+  }
+  
+  .form-field textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+  
+  @media (min-width: 36rem) {
+    .contact-form__submit {
+      width: auto;
+    }
   }
   
   /* --- Footer --- */
