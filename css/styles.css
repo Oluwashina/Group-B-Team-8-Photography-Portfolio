@@ -42,6 +42,13 @@
     background-color: var(--color-bg);
     overflow-x: clip;
   }
+
+  main,
+  .contact__intro,
+  .about__content,
+  .hero__tagline {
+    overflow-wrap: anywhere;
+  }
   
   img,
   picture,
@@ -290,16 +297,10 @@
     margin-top: var(--space-sm);
     width: 100%;
   }
-  
+
   .form-field textarea {
     resize: vertical;
     min-height: 8rem;
-  }
-  
-  @media (min-width: 36rem) {
-    .contact-form__submit {
-      width: auto;
-    }
   }
   
   /* --- Footer --- */
@@ -316,15 +317,75 @@
     margin: 0;
   }
 
-  /* --- Responsive: header & nav --- */
-@media (max-width: 40rem) {
+  /* --- Responsive breakpoints --- */
+  /* Phone: tighter spacing, single-column gallery, stacked header */
+  @media (max-width: 40rem) {
     .site-header__inner {
       flex-direction: column;
       align-items: stretch;
       text-align: center;
+      padding-inline: var(--space-sm);
     }
-  
+
     .site-nav__list {
       justify-content: center;
+    }
+
+    main {
+      padding-inline: var(--space-sm);
+    }
+
+    .hero {
+      padding-block: var(--space-lg) var(--space-md);
+    }
+
+    .hero,
+    .gallery,
+    .about,
+    .contact {
+      padding-block: var(--space-md);
+    }
+
+    .hero__tagline {
+      font-size: 1rem;
+    }
+
+    .gallery__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+    }
+
+    .contact-form {
+      max-width: none;
+    }
+  }
+
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .gallery__grid {
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+      gap: var(--space-sm);
+    }
+  }
+
+  /* Desktop: wider gallery, larger section titles */
+  @media (min-width: 64rem) {
+    .gallery__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    section h2 {
+      font-size: 1.75rem;
+    }
+
+    .contact-form {
+      max-width: 36rem;
+    }
+  }
+
+  /* Contact submit: full width on phone, auto on larger */
+  @media (min-width: 36rem) {
+    .contact-form__submit {
+      width: auto;
     }
   }
