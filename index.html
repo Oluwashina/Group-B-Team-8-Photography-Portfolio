@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Photography portfolio — gallery, about, and contact.">
+  <title>Studio Name | Photography Portfolio</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-brand">
+        <a href="#">Studio Name</a>
+      </p>
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="site-nav__list">
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="page-title">
+      <h1 id="page-title">Studio Name</h1>
+      <p class="hero__tagline">Portrait and landscape photography.</p>
+    </section>
+
+    <section id="gallery" class="gallery" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading">Gallery</h2>
+      <!-- Grid + images come in a later commit -->
+      <p>Gallery images will go here.</p>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <p>Short bio — one or two sentences.</p>
+    </section>
+
+    <section id="contact" class="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact</h2>
+      <form class="contact-form" action="#" method="post">
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit">Send message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><small>&copy; <span id="year">2026</span> Studio Name. All rights reserved.</small></p>
+  </footer>
+</body>
+</html>
