@@ -1,12 +1,12 @@
-# Group B Team 8 — Photography Portfolio
+# Group B Team 8: Photography Portfolio
 
 Single-page, responsive photography portfolio. The **gallery grid** is the centerpiece; images use **`object-fit: cover`** inside fixed-aspect tiles. **About** stays short. A **shop** CTA is replaced with a **contact form** (in-page `#contact`).
 
-Built with **plain HTML5 and CSS3** — no CSS frameworks or JavaScript libraries required for layout.
+Built with **plain HTML5 and CSS3**. No CSS frameworks or JavaScript libraries for layout.
 
 ## Repository
 
-- [GitHub — Group-B-Team-8-Photography-Portfolio](https://github.com/Oluwashina/Group-B-Team-8-Photography-Portfolio)
+- [GitHub: Group-B-Team-8-Photography-Portfolio](https://github.com/Oluwashina/Group-B-Team-8-Photography-Portfolio)
 
 ## Live demo
 
@@ -70,4 +70,4 @@ Then open [http://localhost:8000](http://localhost:8000).
 
 ## Team
 
-Group B — Team 8 (Mayerfeld Practicum, Assessment 1)
+Group B, Team 8 (Mayerfeld Practicum, Assessment 1)
