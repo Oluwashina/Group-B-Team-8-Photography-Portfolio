@@ -8,7 +8,7 @@ export default function About() {
       className="scroll-mt-24 py-16 md:py-20"
       aria-labelledby="about-heading"
     >
-      <div className="flex flex-col gap-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#161412] to-[#110f0d] p-6 md:flex-row md:p-10">
+      <div className="flex flex-col gap-8 rounded-2xl border border-white/10 bg-linear-to-br from-[#161412] to-[#110f0d] p-6 md:flex-row md:p-10">
         <SectionHeader
           eyebrow={aboutSection.eyebrow}
           title={aboutSection.title}

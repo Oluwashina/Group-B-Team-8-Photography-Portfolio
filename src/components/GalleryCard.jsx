@@ -19,7 +19,7 @@ export default function GalleryCard({ item }) {
           loading="lazy"
           className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
         />
-        <figcaption className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#0a0908]/95 via-[#0a0908]/40 to-transparent p-4 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+        <figcaption className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-linear-to-t from-[#0a0908]/95 via-[#0a0908]/40 to-transparent p-4 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
           <span className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#ddc9a8]">
             {item.captionLabel}
           </span>

@@ -5,7 +5,7 @@ export default function Header() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
       <a
         href="#main-content"
-        className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-[#ddc9a8] focus:px-4 focus:py-2 focus:font-semibold focus:text-[#0a0908]"
+        className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded focus:bg-[#ddc9a8] focus:px-4 focus:py-2 focus:font-semibold focus:text-[#0a0908]"
       >
         Skip to main content
       </a>
@@ -17,7 +17,7 @@ export default function Header() {
               className="inline-flex items-center justify-center gap-3 text-stone-100 no-underline transition hover:opacity-90 sm:justify-start"
             >
               <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ddc9a8] to-[#c8b08a] font-serif text-sm font-semibold text-[#0a0908]"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-[#ddc9a8] to-[#c8b08a] font-serif text-sm font-semibold text-[#0a0908]"
                 aria-hidden="true"
               >
                 {brand.monogram}
