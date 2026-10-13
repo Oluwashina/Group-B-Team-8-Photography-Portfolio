@@ -1,21 +1,18 @@
-import Rating from "./Rating";
+const layoutClasses = {
+  default: "row-span-[32]",
+  tall: "row-span-[44]",
+  wide: "col-span-1 sm:col-span-2 row-span-[28]",
+};
 
-export default function GalleryCard({ item, rating, onRatingChange }) {
-  const ratingLabelId = `rating-label-${item.id}`;
-  const wideClass = item.layout === "wide" ? "sm:col-span-2" : "";
-  const aspectClass =
-    item.layout === "tall"
-      ? "aspect-[3/4]"
-      : item.layout === "wide"
-        ? "aspect-[16/9]"
-        : "aspect-[4/3]";
+export default function GalleryCard({ item }) {
+  const layout = layoutClasses[item.layout] ?? layoutClasses.default;
 
   return (
     <figure
-      className={`group flex flex-col overflow-hidden rounded-xl bg-stone-900 shadow-lg shadow-black/30 transition hover:-translate-y-0.5 hover:shadow-xl ${wideClass}`}
+      className={`group relative m-0 overflow-hidden rounded-xl bg-stone-900 shadow-lg shadow-black/30 transition hover:-translate-y-0.5 hover:shadow-xl ${layout}`}
       tabIndex={0}
     >
-      <div className={`relative w-full overflow-hidden ${aspectClass}`}>
+      <div className="relative h-full min-h-40 overflow-hidden">
         <img
           src={item.src}
           alt={item.alt}
@@ -30,13 +27,6 @@ export default function GalleryCard({ item, rating, onRatingChange }) {
             {item.captionText}
           </p>
         </figcaption>
-      </div>
-      <div className="border-t border-white/10 bg-[#141412] px-4 py-3">
-        <Rating
-          value={rating}
-          onChange={onRatingChange}
-          labelId={ratingLabelId}
-        />
       </div>
     </figure>
   );
