@@ -22,6 +22,7 @@ function matchesSearch(item, query) {
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [favorites, setFavorites] = useState({});
 
   const filteredItems = useMemo(() => {
     return galleryItems.filter((item) => {
@@ -30,6 +31,10 @@ export default function Gallery() {
       return categoryMatch && matchesSearch(item, searchQuery);
     });
   }, [activeCategory, searchQuery]);
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   return (
     <section
@@ -86,7 +91,12 @@ export default function Gallery() {
       ) : (
         <div className="grid grid-cols-1 auto-rows-[0.5rem] grid-flow-dense gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((item) => (
-            <GalleryCard key={item.id} item={item} />
+            <GalleryCard
+              key={item.id}
+              item={item}
+              isSaved={Boolean(favorites[item.id])}
+              onToggleFavorite={() => toggleFavorite(item.id)}
+            />
           ))}
         </div>
       )}
