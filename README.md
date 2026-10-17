@@ -32,8 +32,9 @@ No extra UI libraries (no React Router, no component kits).
 - **Site copy:** `src/data/siteContent.js` for nav, hero, sections, footer
 - **Gallery filter:** category buttons with `useState`
 - **Gallery search:** controlled `SearchInput` (filters caption, category, and alt text)
+- **Save favorites:** per-image bookmark on `GalleryCard` via controlled `FavoriteToggle` (top-right on hover; saved state persists in session with `useState` in `Gallery.jsx`)
 - **Responsive:** mobile-first Tailwind (`sm:`, `md:`, `lg:`)
-- **Accessibility:** skip link, semantic landmarks, one `<h1>`, labeled form fields, image `alt` text
+- **Accessibility:** skip link, semantic landmarks, one `<h1>`, labeled form fields, image `alt` text, bookmark buttons with `aria-pressed`
 
 ## Project structure
 
@@ -48,6 +49,7 @@ src/
     Footer.jsx
     Gallery.jsx
     GalleryCard.jsx
+    FavoriteToggle.jsx
     About.jsx
     Contact.jsx
     SearchInput.jsx
@@ -91,7 +93,7 @@ npm run lint     # ESLint
 | Listed items in one data file | `src/data/galleryItems.js` |
 | Tailwind wired, no Assignment 1 `styles.css` | `src/index.css`; legacy CSS removed |
 | Filter on main grid + `useState` | Category filter in `Gallery.jsx` |
-| Controlled component | `SearchInput` (search query state) |
+| Controlled component | `SearchInput` (gallery search); `FavoriteToggle` on each card (`isSaved` + `onChange`, state in `Gallery.jsx`) |
 | Mobile-first responsive Tailwind | Utility classes across components |
 | Small commits | Feature commits on `assignment-2-react` branch |
 | No horizontal scroll | Test at 320px / tablet / desktop |
