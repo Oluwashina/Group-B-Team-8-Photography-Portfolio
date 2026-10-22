@@ -1,7 +1,9 @@
 import "dotenv/config";
 import cors from "cors";
 import express from "express";
+import { createSessionMiddleware } from "./config/session.js";
 import pool from "./db/pool.js";
+import authRouter from "./routes/auth.js";
 import galleryRouter from "./routes/gallery.js";
 
 const app = express();
@@ -12,6 +14,8 @@ const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin(origin, callback) {
@@ -21,9 +25,11 @@ app.use(
       }
       callback(null, false);
     },
+    credentials: true,
   }),
 );
 app.use(express.json());
+app.use(createSessionMiddleware());
 
 app.get("/api/health", async (_req, res) => {
   const payload = {
@@ -50,6 +56,7 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
+app.use("/api/auth", authRouter);
 app.use("/api/gallery", galleryRouter);
 
 app.listen(port, () => {

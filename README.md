@@ -114,11 +114,21 @@ npm run db:setup
 
 | Script | Purpose |
 |--------|---------|
-| `npm run db:migrate` | Creates `gallery_items`, `users`, `favorites` tables |
+| `npm run db:migrate` | Creates `gallery_items`, `users`, `session`, `favorites` tables |
 | `npm run db:seed` | Inserts/updates 10 photos from `galleryItems.js` |
 | `npm run db:setup` | Runs migrate then seed |
 
-**API:** `GET /api/gallery` returns the gallery as JSON (same shape as the client data file).
+**API:**
+
+| Route | Purpose |
+|-------|---------|
+| `GET /api/gallery` | Gallery JSON from Postgres |
+| `POST /api/auth/signup` | Create account (bcrypt password hash) |
+| `POST /api/auth/login` | Start session cookie |
+| `POST /api/auth/logout` | End session |
+| `GET /api/auth/me` | Current user or `{ user: null }` |
+
+Set **`SESSION_SECRET`** in `server/.env` (long random string). Sessions are stored in Postgres (`session` table) via `express-session` + `connect-pg-simple`.
 
 ### Client ↔ API
 
@@ -129,7 +139,7 @@ npm run dev:server   # :3001
 npm run dev:client   # :5173 — Vite proxies /api → localhost:3001
 ```
 
-For production (Vercel), set **`VITE_API_URL`** to your public API origin (see `client/.env.example`). Redeploy after changing it.
+For production (Vercel + API host), set **`VITE_API_URL`** to your public API origin (see `client/.env.example`). On the server set **`COOKIE_SECURE=true`** and **`COOKIE_SAME_SITE=none`**, and include your Vercel URL in **`CLIENT_URL`**. Auth requests use `credentials: 'include'` so the session cookie is sent cross-origin.
 
 ### Root scripts
 

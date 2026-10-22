@@ -10,13 +10,23 @@ CREATE TABLE IF NOT EXISTS gallery_items (
   sort_order INTEGER NOT NULL DEFAULT 0
 );
 
--- Users (signup/login in a later step)
+-- Users (email + bcrypt password hash)
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Express session store (connect-pg-simple)
+CREATE TABLE IF NOT EXISTS "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL,
+  CONSTRAINT "session_pkey" PRIMARY KEY ("sid")
+);
+
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 
 -- Saved favorites (used once auth is wired)
 CREATE TABLE IF NOT EXISTS favorites (
