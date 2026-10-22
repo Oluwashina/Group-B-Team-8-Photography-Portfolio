@@ -2,9 +2,11 @@
 
 Assignment 2 rebuild of our photography portfolio: **React**, **Vite**, and **Tailwind CSS**. Same brand and content as Assignment 1 (plain HTML/CSS), with a component-based layout and interactive gallery.
 
+Assignment 3 adds a **client/server split**: Vite frontend in `client/`, Express API in `server/`.
+
 ## Live demo
 
-_Add your deployed URL here (e.g. GitHub Pages) after publishing._
+_Add your Vercel frontend URL here after publishing._
 
 ## Repository
 
@@ -18,18 +20,18 @@ _Add your deployed URL here (e.g. GitHub Pages) after publishing._
 
 | Layer | Choice |
 |-------|--------|
-| Build | [Vite](https://vite.dev/) |
-| UI | [React](https://react.dev/) (JavaScript, no TypeScript) |
-| Styling | [Tailwind CSS](https://tailwindcss.com/) v4 (`@tailwindcss/vite`) |
-| Data | Hardcoded modules (no backend until Week 3) |
+| Client | [Vite](https://vite.dev/) + [React](https://react.dev/) (JavaScript) |
+| Client styling | [Tailwind CSS](https://tailwindcss.com/) v4 (`@tailwindcss/vite`) |
+| Server | [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/) |
+| Data (Week 2) | Hardcoded modules in `client/src/data/` (moving to Postgres in Week 3) |
 
 No extra UI libraries (no React Router, no component kits).
 
 ## Features
 
 - **Component layout:** `Header`, `Hero`, `MainContent` (gallery, about, contact), `Footer`
-- **Data-driven gallery:** `src/data/galleryItems.js` — ten items rendered with `.map()`, not duplicated JSX
-- **Site copy:** `src/data/siteContent.js` for nav, hero, sections, footer
+- **Data-driven gallery:** `client/src/data/galleryItems.js` — ten items rendered with `.map()`, not duplicated JSX
+- **Site copy:** `client/src/data/siteContent.js` for nav, hero, sections, footer
 - **Gallery filter:** category buttons with `useState`
 - **Gallery search:** controlled `SearchInput` (filters caption, category, and alt text)
 - **Save favorites:** per-image bookmark on `GalleryCard` via controlled `FavoriteToggle` (top-right on hover; saved state persists in session with `useState` in `Gallery.jsx`)
@@ -39,68 +41,99 @@ No extra UI libraries (no React Router, no component kits).
 ## Project structure
 
 ```text
-public/
-  assets/images/          # Gallery JPGs (served at /assets/images/...)
-src/
-  components/
-    Header.jsx
-    Hero.jsx
-    MainContent.jsx
-    Footer.jsx
-    Gallery.jsx
-    GalleryCard.jsx
-    FavoriteToggle.jsx
-    About.jsx
-    Contact.jsx
-    SearchInput.jsx
-    SectionHeader.jsx
-  data/
-    galleryItems.js
-    siteContent.js
-  App.jsx
-  main.jsx
-  index.css               # Tailwind entry
-index.html
-vite.config.js
-index.a1.html             # Assignment 1 reference (archived markup)
+client/                   # Vite + React (deploy to Vercel)
+  public/assets/images/
+  src/
+    components/
+    data/
+    App.jsx
+    main.jsx
+    index.css
+  index.html
+  vite.config.js
+server/                   # Express API (deploy to Railway etc.)
+  index.js
+  .env.example
+  package.json
+package.json              # Root scripts: dev:client, dev:server
+README.md
 ```
 
 ## Getting started
 
 **Requirements:** Node.js 18+ (LTS recommended)
 
+Install dependencies in both apps:
+
 ```bash
-npm install
+cd client && npm install
+cd ../server && npm install
+```
+
+### Client (frontend)
+
+```bash
+npm run dev:client
+# or: cd client && npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+### Server (API)
+
+Copy env template and start the API:
+
+```bash
+cd server
+cp .env.example .env
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually [http://localhost:5173](http://localhost:5173)).
+Health check: [http://localhost:3001/api/health](http://localhost:3001/api/health) should return JSON `{ "ok": true, ... }`.
 
-### Other scripts
+### Root scripts
+
+From the repo root:
 
 ```bash
-npm run build    # Production build → dist/
-npm run preview  # Preview production build locally
-npm run lint     # ESLint
+npm run dev:client
+npm run dev:server
+npm run build    # client production build → client/dist/
+npm run lint     # ESLint in client/
 ```
+
+## Deploy frontend on Vercel
+
+Use Vercel for the **client only**. The Express app in `server/` should be hosted elsewhere (e.g. Railway) once the database and auth are added.
+
+1. Import this GitHub repo in [Vercel](https://vercel.com).
+2. Set **Root Directory** to `client` (required — the Vite app is not at the repo root).
+3. **Framework Preset:** Vite (defaults are usually fine).
+4. **Build Command:** `npm run build`
+5. **Output Directory:** `dist`
+6. **Install Command:** `npm install`
+
+After the API is live, add an environment variable in Vercel → **Settings → Environment Variables**:
+
+| Name | Example | Notes |
+|------|---------|--------|
+| `VITE_API_URL` | `https://your-api.up.railway.app` | Public API base URL; redeploy after changing |
+
+Only variables prefixed with `VITE_` are exposed to the browser. Never put `DATABASE_URL` or `SESSION_SECRET` in Vercel client env.
 
 ## Assignment 2 checklist
 
 | Requirement | Implementation |
 |-------------|----------------|
-| Vite + React in existing repo | Root `vite.config.js`, `src/main.jsx` |
-| Header, hero, main content, footer | `src/components/` + `App.jsx` |
-| Listed items in one data file | `src/data/galleryItems.js` |
-| Tailwind wired, no Assignment 1 `styles.css` | `src/index.css`; legacy CSS removed |
+| Vite + React in existing repo | `client/vite.config.js`, `client/src/main.jsx` |
+| Header, hero, main content, footer | `client/src/components/` + `App.jsx` |
+| Listed items in one data file | `client/src/data/galleryItems.js` |
+| Tailwind wired, no Assignment 1 `styles.css` | `client/src/index.css`; legacy CSS removed |
 | Filter on main grid + `useState` | Category filter in `Gallery.jsx` |
-| Controlled component | `SearchInput` (gallery search); `FavoriteToggle` on each card (`isSaved` + `onChange`, state in `Gallery.jsx`) |
+| Controlled component | `SearchInput` (gallery search); `FavoriteToggle` on each card |
 | Mobile-first responsive Tailwind | Utility classes across components |
-| Small commits | Feature commits on `assignment-2-react` branch |
+| Small commits | Feature commits on branch |
 | No horizontal scroll | Test at 320px / tablet / desktop |
-
-## Deployment notes (optional)
-
-For **GitHub Pages**, set `base` in `vite.config.js` to your repo name if assets fail to load, then build and deploy the `dist/` folder. Document the public URL in **Live demo** above.
 
 ## Team
 
