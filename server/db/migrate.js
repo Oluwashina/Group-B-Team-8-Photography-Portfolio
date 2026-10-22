@@ -15,7 +15,10 @@ async function migrate() {
 
   const sql = fs.readFileSync(schemaPath, "utf8");
   await pool.query(sql);
-  console.log("Schema applied (gallery_items, users, favorites).");
+  await pool.query(
+    "ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT",
+  );
+  console.log("Schema applied (gallery_items, users, session, favorites).");
   await pool.end();
 }
 

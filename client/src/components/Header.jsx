@@ -9,6 +9,14 @@ function displayEmail(email) {
   return `${local.slice(0, 10)}…${email.slice(at)}`;
 }
 
+function welcomeLabel(user) {
+  const name = user.name?.trim();
+  if (name) {
+    return `Welcome, ${name}`;
+  }
+  return `Welcome, ${displayEmail(user.email)}`;
+}
+
 export default function Header() {
   const { user, status, logout, openAuth } = useAuth();
 
@@ -66,10 +74,10 @@ export default function Header() {
               {status === "ready" && user && (
                 <>
                   <span
-                    className="max-w-[10rem] truncate text-xs text-stone-400 sm:max-w-[12rem] sm:text-sm"
-                    title={user.email}
+                    className="max-w-[14rem] truncate text-xs text-stone-300 sm:max-w-[16rem] sm:text-sm"
+                    title={user.name?.trim() || user.email}
                   >
-                    {displayEmail(user.email)}
+                    {welcomeLabel(user)}
                   </span>
                   <button
                     type="button"

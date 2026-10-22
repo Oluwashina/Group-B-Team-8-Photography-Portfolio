@@ -10,10 +10,11 @@ CREATE TABLE IF NOT EXISTS gallery_items (
   sort_order INTEGER NOT NULL DEFAULT 0
 );
 
--- Users (email + bcrypt password hash)
+-- Users (display name optional for accounts created before name was added)
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
+  name TEXT,
   password_hash TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

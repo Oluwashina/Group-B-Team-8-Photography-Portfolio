@@ -5,10 +5,10 @@ export async function fetchCurrentUser() {
   return readJson(response);
 }
 
-export async function signup(email, password) {
+export async function signup(name, email, password) {
   const response = await apiFetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ name, email, password }),
   });
   return readJson(response);
 }

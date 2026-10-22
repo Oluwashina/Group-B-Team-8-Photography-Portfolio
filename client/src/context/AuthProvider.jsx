@@ -52,8 +52,8 @@ export default function AuthProvider({ children }) {
     setAuthOpen(false);
   }, []);
 
-  const signup = useCallback(async (email, password) => {
-    const data = await authApi.signup(email, password);
+  const signup = useCallback(async (name, email, password) => {
+    const data = await authApi.signup(name, email, password);
     setUser(data.user);
     return data.user;
   }, []);
@@ -70,9 +70,9 @@ export default function AuthProvider({ children }) {
   }, []);
 
   const handleAuthSubmit = useCallback(
-    async ({ email, password, mode }) => {
+    async ({ name, email, password, mode }) => {
       if (mode === "signup") {
-        await signup(email, password);
+        await signup(name, email, password);
       } else {
         await login(email, password);
       }

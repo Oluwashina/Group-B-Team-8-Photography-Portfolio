@@ -133,6 +133,8 @@ npm run db:setup
 
 Set **`SESSION_SECRET`** in `server/.env` (long random string). Sessions are stored in Postgres (`session` table) via `express-session` + `connect-pg-simple`.
 
+**Users table:** `email`, optional **`name`** (display name at signup), `password_hash`. If you already deployed before `name` existed, run `npm run db:migrate` in `server/` — it runs `ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT`. Existing accounts keep working; the navbar shows **Welcome, {email}** until they have a name (new signups require name).
+
 ### Client ↔ API
 
 With both dev servers running, the gallery fetches from the API automatically:

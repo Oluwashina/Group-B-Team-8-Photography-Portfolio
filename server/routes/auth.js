@@ -4,18 +4,31 @@ import pool from "../db/pool.js";
 
 const router = Router();
 const SALT_ROUNDS = 10;
+const MAX_NAME_LENGTH = 80;
 
 function normalizeEmail(email) {
   return String(email).trim().toLowerCase();
+}
+
+function normalizeName(name) {
+  return String(name).trim().replace(/\s+/g, " ");
 }
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function toPublicUser(row) {
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name?.trim() || null,
+  };
+}
+
 async function findUserById(id) {
   const { rows } = await pool.query(
-    "SELECT id, email FROM users WHERE id = $1",
+    "SELECT id, email, name FROM users WHERE id = $1",
     [id],
   );
   return rows[0] ?? null;
@@ -34,7 +47,7 @@ router.get("/me", async (req, res) => {
       res.json({ user: null });
       return;
     }
-    res.json({ user: { id: user.id, email: user.email } });
+    res.json({ user: toPublicUser(user) });
   } catch (err) {
     console.error("GET /api/auth/me:", err.message);
     res.status(500).json({ error: "Could not load session" });
@@ -44,7 +57,16 @@ router.get("/me", async (req, res) => {
 router.post("/signup", async (req, res) => {
   const email = normalizeEmail(req.body?.email);
   const password = String(req.body?.password ?? "");
+  const name = normalizeName(req.body?.name ?? "");
 
+  if (!name) {
+    res.status(400).json({ error: "Name is required" });
+    return;
+  }
+  if (name.length > MAX_NAME_LENGTH) {
+    res.status(400).json({ error: "Name is too long" });
+    return;
+  }
   if (!isValidEmail(email)) {
     res.status(400).json({ error: "Enter a valid email address" });
     return;
@@ -57,10 +79,10 @@ router.post("/signup", async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
     const { rows } = await pool.query(
-      `INSERT INTO users (email, password_hash)
-       VALUES ($1, $2)
-       RETURNING id, email`,
-      [email, passwordHash],
+      `INSERT INTO users (email, name, password_hash)
+       VALUES ($1, $2, $3)
+       RETURNING id, email, name`,
+      [email, name, passwordHash],
     );
     const user = rows[0];
     req.session.userId = user.id;
@@ -70,7 +92,7 @@ router.post("/signup", async (req, res) => {
         res.status(500).json({ error: "Account created but session failed" });
         return;
       }
-      res.status(201).json({ user: { id: user.id, email: user.email } });
+      res.status(201).json({ user: toPublicUser(user) });
     });
   } catch (err) {
     if (err.code === "23505") {
@@ -93,7 +115,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const { rows } = await pool.query(
-      "SELECT id, email, password_hash FROM users WHERE email = $1",
+      "SELECT id, email, name, password_hash FROM users WHERE email = $1",
       [email],
     );
     const record = rows[0];
@@ -115,7 +137,7 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ error: "Login failed" });
         return;
       }
-      res.json({ user: { id: record.id, email: record.email } });
+      res.json({ user: toPublicUser(record) });
     });
   } catch (err) {
     console.error("POST /api/auth/login:", err.message);
