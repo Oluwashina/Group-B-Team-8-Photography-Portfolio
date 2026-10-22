@@ -1,21 +1,56 @@
 import "dotenv/config";
 import cors from "cors";
 import express from "express";
+import pool from "./db/pool.js";
+import galleryRouter from "./routes/gallery.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3001;
-const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
-    origin: clientUrl,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(null, false);
+    },
   }),
 );
 app.use(express.json());
 
-app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, service: "golden-hour-studio-api" });
+app.get("/api/health", async (_req, res) => {
+  const payload = {
+    ok: true,
+    service: "golden-hour-studio-api",
+    database: "unknown",
+  };
+
+  if (!process.env.DATABASE_URL) {
+    payload.database = "not_configured";
+    res.json(payload);
+    return;
+  }
+
+  try {
+    await pool.query("SELECT 1");
+    payload.database = "connected";
+    res.json(payload);
+  } catch (err) {
+    console.error("Health check DB error:", err.message);
+    payload.ok = false;
+    payload.database = "error";
+    res.status(503).json(payload);
+  }
 });
+
+app.use("/api/gallery", galleryRouter);
 
 app.listen(port, () => {
   console.log(`API listening on http://localhost:${port}`);

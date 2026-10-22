@@ -23,7 +23,8 @@ _Add your Vercel frontend URL here after publishing._
 | Client | [Vite](https://vite.dev/) + [React](https://react.dev/) (JavaScript) |
 | Client styling | [Tailwind CSS](https://tailwindcss.com/) v4 (`@tailwindcss/vite`) |
 | Server | [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/) |
-| Data (Week 2) | Hardcoded modules in `client/src/data/` (moving to Postgres in Week 3) |
+| Database | [Neon](https://neon.tech/) Postgres |
+| Data | Gallery items in Postgres (seeded from `client/src/data/galleryItems.js`) |
 
 No extra UI libraries (no React Router, no component kits).
 
@@ -51,7 +52,14 @@ client/                   # Vite + React (deploy to Vercel)
     index.css
   index.html
   vite.config.js
-server/                   # Express API (deploy to Railway etc.)
+server/                   # Express API (deploy to Railway next)
+  db/
+    schema.sql
+    pool.js
+    migrate.js
+  routes/
+    gallery.js
+  seed.js
   index.js
   .env.example
   package.json
@@ -89,7 +97,26 @@ cp .env.example .env
 npm run dev
 ```
 
-Health check: [http://localhost:3001/api/health](http://localhost:3001/api/health) should return JSON `{ "ok": true, ... }`.
+Health check: [http://localhost:3001/api/health](http://localhost:3001/api/health) should return JSON with `"database": "connected"` when Neon is wired up.
+
+### Database (Neon)
+
+1. In Neon, create a project and copy the **connection string** into `server/.env` as `DATABASE_URL`.
+2. Add your **Vercel URL** to `CLIENT_URL` (comma-separated with `http://localhost:5173`) for CORS when you test from production later.
+3. Apply schema and seed gallery rows:
+
+```bash
+cd server
+npm run db:setup
+```
+
+| Script | Purpose |
+|--------|---------|
+| `npm run db:migrate` | Creates `gallery_items`, `users`, `favorites` tables |
+| `npm run db:seed` | Inserts/updates 10 photos from `galleryItems.js` |
+| `npm run db:setup` | Runs migrate then seed |
+
+**API:** `GET /api/gallery` returns the gallery as JSON (same shape as the client data file).
 
 ### Root scripts
 
