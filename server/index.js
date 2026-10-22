@@ -4,6 +4,7 @@ import express from "express";
 import { createSessionMiddleware } from "./config/session.js";
 import pool from "./db/pool.js";
 import authRouter from "./routes/auth.js";
+import favoritesRouter from "./routes/favorites.js";
 import galleryRouter from "./routes/gallery.js";
 
 const app = express();
@@ -58,6 +59,7 @@ app.get("/api/health", async (_req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/gallery", galleryRouter);
+app.use("/api/favorites", favoritesRouter);
 
 app.listen(port, () => {
   console.log(`API listening on http://localhost:${port}`);

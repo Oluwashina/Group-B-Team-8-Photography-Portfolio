@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchGalleryItems } from "../api/gallery";
+import * as favoritesApi from "../api/favorites.js";
+import { useAuth } from "../context/useAuth.js";
 import { gallerySection } from "../data/siteContent";
 import GalleryCard from "./GalleryCard";
 import SearchInput from "./SearchInput";
@@ -23,13 +25,19 @@ function categoriesFromItems(items) {
   return ["All", ...new Set(items.map((item) => item.category))];
 }
 
+function idsToMap(ids) {
+  return Object.fromEntries(ids.map((id) => [id, true]));
+}
+
 export default function Gallery() {
+  const { user, status: authStatus, openAuth } = useAuth();
   const [galleryItems, setGalleryItems] = useState([]);
   const [loadState, setLoadState] = useState("loading");
   const [loadError, setLoadError] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [favorites, setFavorites] = useState({});
+  const [favoriteError, setFavoriteError] = useState("");
 
   const loadGallery = useCallback(async () => {
     setLoadState("loading");
@@ -71,6 +79,29 @@ export default function Gallery() {
     };
   }, []);
 
+  useEffect(() => {
+    if (authStatus !== "ready" || !user) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const ids = await favoritesApi.fetchFavoriteIds();
+        if (cancelled) return;
+        setFavorites(idsToMap(ids));
+      } catch {
+        if (cancelled) return;
+        setFavorites({});
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, authStatus]);
+
+  const visibleFavorites = user ? favorites : {};
+
   const galleryCategories = useMemo(
     () => categoriesFromItems(galleryItems),
     [galleryItems],
@@ -84,8 +115,37 @@ export default function Gallery() {
     });
   }, [activeCategory, searchQuery, galleryItems]);
 
-  const toggleFavorite = (id) => {
-    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleFavorite = async (id, nextSaved) => {
+    setFavoriteError("");
+
+    if (!user) {
+      openAuth("login");
+      return;
+    }
+
+    const previous = { ...favorites };
+    setFavorites((prev) => {
+      const next = { ...prev };
+      if (nextSaved) {
+        next[id] = true;
+      } else {
+        delete next[id];
+      }
+      return next;
+    });
+
+    try {
+      if (nextSaved) {
+        await favoritesApi.addFavorite(id);
+      } else {
+        await favoritesApi.removeFavorite(id);
+      }
+    } catch (err) {
+      setFavorites(previous);
+      setFavoriteError(
+        err instanceof Error ? err.message : "Could not update favorite",
+      );
+    }
   };
 
   return (
@@ -109,6 +169,18 @@ export default function Gallery() {
           onChange={setSearchQuery}
           placeholder="Search by place, mood, or keyword…"
         />
+
+        {user && loadState === "ready" && (
+          <p className="text-center text-xs text-stone-500">
+            Signed in — bookmarks save to your account.
+          </p>
+        )}
+
+        {favoriteError && (
+          <p className="text-center text-sm text-red-300" role="alert">
+            {favoriteError}
+          </p>
+        )}
 
         {loadState === "ready" && (
           <div
@@ -176,8 +248,8 @@ export default function Gallery() {
             <GalleryCard
               key={item.id}
               item={item}
-              isSaved={Boolean(favorites[item.id])}
-              onToggleFavorite={() => toggleFavorite(item.id)}
+              isSaved={Boolean(visibleFavorites[item.id])}
+              onToggleFavorite={(nextSaved) => toggleFavorite(item.id, nextSaved)}
             />
           ))}
         </div>

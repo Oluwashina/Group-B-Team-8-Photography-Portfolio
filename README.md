@@ -35,7 +35,7 @@ No extra UI libraries (no React Router, no component kits).
 - **Site copy:** `client/src/data/siteContent.js` for nav, hero, sections, footer
 - **Gallery filter:** category buttons with `useState`
 - **Gallery search:** controlled `SearchInput` (filters caption, category, and alt text)
-- **Save favorites:** per-image bookmark on `GalleryCard` via controlled `FavoriteToggle` (top-right on hover; saved state persists in session with `useState` in `Gallery.jsx`)
+- **Save favorites:** bookmark on `GalleryCard` via `FavoriteToggle` — **sign in required**; saved to Postgres `favorites` table per user
 - **Responsive:** mobile-first Tailwind (`sm:`, `md:`, `lg:`)
 - **Accessibility:** skip link, semantic landmarks, one `<h1>`, labeled form fields, image `alt` text, bookmark buttons with `aria-pressed`
 
@@ -127,6 +127,9 @@ npm run db:setup
 | `POST /api/auth/login` | Start session cookie |
 | `POST /api/auth/logout` | End session |
 | `GET /api/auth/me` | Current user or `{ user: null }` |
+| `GET /api/favorites` | Saved gallery item ids (requires login) |
+| `POST /api/favorites/:galleryItemId` | Save a bookmark |
+| `DELETE /api/favorites/:galleryItemId` | Remove a bookmark |
 
 Set **`SESSION_SECRET`** in `server/.env` (long random string). Sessions are stored in Postgres (`session` table) via `express-session` + `connect-pg-simple`.
 
