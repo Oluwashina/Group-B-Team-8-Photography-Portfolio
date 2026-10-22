@@ -131,7 +131,13 @@ npm run db:setup
 | `POST /api/favorites/:galleryItemId` | Save a bookmark |
 | `DELETE /api/favorites/:galleryItemId` | Remove a bookmark |
 
-Set **`SESSION_SECRET`** in `server/.env` (long random string). Sessions are stored in Postgres (`session` table) via `express-session` + `connect-pg-simple`.
+Set **`SESSION_SECRET`** in `server/.env` — a private key used to sign login cookies (never commit it; set the same variable on Railway for production). Generate one locally:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Sessions are stored in Postgres (`session` table) via `express-session` + `connect-pg-simple`. Restart the API after changing `SESSION_SECRET`.
 
 **Users table:** `email`, optional **`name`** (display name at signup), `password_hash`. If you already deployed before `name` existed, run `npm run db:migrate` in `server/` — it runs `ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT`. Existing accounts keep working; the navbar shows **Welcome, {email}** until they have a name (new signups require name).
 
