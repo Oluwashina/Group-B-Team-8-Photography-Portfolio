@@ -24,7 +24,7 @@ _Add your Vercel frontend URL here after publishing._
 | Client styling | [Tailwind CSS](https://tailwindcss.com/) v4 (`@tailwindcss/vite`) |
 | Server | [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/) |
 | Database | [Neon](https://neon.tech/) Postgres |
-| Data | Gallery items in Postgres (seeded from `client/src/data/galleryItems.js`) |
+| Data | Gallery items in Postgres; client loads via `GET /api/gallery` |
 
 No extra UI libraries (no React Router, no component kits).
 
@@ -52,6 +52,8 @@ client/                   # Vite + React (deploy to Vercel)
     index.css
   index.html
   vite.config.js
+  .env.example            # VITE_API_URL for production
+  src/api/                # fetch helpers
 server/                   # Express API (deploy to Railway next)
   db/
     schema.sql
@@ -117,6 +119,17 @@ npm run db:setup
 | `npm run db:setup` | Runs migrate then seed |
 
 **API:** `GET /api/gallery` returns the gallery as JSON (same shape as the client data file).
+
+### Client ↔ API
+
+With both dev servers running, the gallery fetches from the API automatically:
+
+```bash
+npm run dev:server   # :3001
+npm run dev:client   # :5173 — Vite proxies /api → localhost:3001
+```
+
+For production (Vercel), set **`VITE_API_URL`** to your public API origin (see `client/.env.example`). Redeploy after changing it.
 
 ### Root scripts
 
