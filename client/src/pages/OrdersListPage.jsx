@@ -17,7 +17,7 @@ function OrdersContent() {
     let cancelled = false;
     (async () => {
       try {
-        const list = await fetchOrdersForUser(user.id);
+        const list = await fetchOrdersForUser();
         if (!cancelled) setOrders(list);
       } finally {
         if (!cancelled) setLoading(false);
@@ -26,7 +26,7 @@ function OrdersContent() {
     return () => {
       cancelled = true;
     };
-  }, [user.id]);
+  }, [user?.id]);
 
   if (loading) {
     return <p className="text-center text-stone-400">Loading orders…</p>;

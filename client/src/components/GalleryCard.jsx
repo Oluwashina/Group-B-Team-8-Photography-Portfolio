@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { enrichWithPrintMeta } from "../data/printCatalog.js";
 import { formatUsd } from "../utils/formatMoney.js";
 import FavoriteToggle from "./FavoriteToggle";
 
@@ -11,7 +10,6 @@ const layoutClasses = {
 
 export default function GalleryCard({ item, isSaved, onToggleFavorite }) {
   const layout = layoutClasses[item.layout] ?? layoutClasses.default;
-  const print = enrichWithPrintMeta(item);
 
   return (
     <figure
@@ -37,9 +35,11 @@ export default function GalleryCard({ item, isSaved, onToggleFavorite }) {
           <p className="mt-1 text-sm font-light leading-snug text-stone-100">
             {item.captionText}
           </p>
-          <p className="mt-2 font-serif text-sm text-[#ddc9a8]">
-            {formatUsd(print.priceCents)}
-          </p>
+          {item.priceCents > 0 && (
+            <p className="mt-2 font-serif text-sm text-[#ddc9a8]">
+              {formatUsd(item.priceCents)}
+            </p>
+          )}
         </figcaption>
         <Link
           to={`/prints/${item.id}`}

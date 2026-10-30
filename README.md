@@ -135,7 +135,7 @@ npm run db:setup
 | `POST /api/checkout` | Create pending order + Stripe Checkout Session (requires login; prices from DB) |
 | `POST /api/webhooks/stripe` | Stripe webhook — **only** handler that sets orders to `paid` |
 
-**Shop tables:** `gallery_items.price_cents` (USD), `orders`, `order_items`. Seed copies prices from `client/src/data/printCatalog.js`.
+**Shop tables:** `gallery_items.price_cents` (USD), `orders`, `order_items`. Seed prices live in `server/data/seedPrices.js`.
 
 **Stripe (test mode):** set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in `server/.env`. Local webhook forwarding:
 
@@ -143,7 +143,7 @@ npm run db:setup
 stripe listen --forward-to localhost:3001/api/webhooks/stripe
 ```
 
-Test card: `4242 4242 4242 4242`. Frontend checkout wiring is separate (`USE_MOCK_ORDERS` in the client until connected).
+Test card: `4242 4242 4242 4242`. The client calls `POST /api/checkout` and redirects to Stripe; order status updates via the webhook.
 
 Set **`SESSION_SECRET`** in `server/.env` — a private key used to sign login cookies (never commit it; set the same variable on Railway for production). Generate one locally:
 

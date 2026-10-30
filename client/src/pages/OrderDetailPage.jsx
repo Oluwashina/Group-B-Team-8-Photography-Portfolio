@@ -5,19 +5,17 @@ import Footer from "../components/Footer";
 import OrderStatusBadge from "../components/OrderStatusBadge.jsx";
 import RequireAuth from "../components/RequireAuth.jsx";
 import ShopPageLayout from "../components/ShopPageLayout.jsx";
-import { useAuth } from "../context/useAuth.js";
 import { formatUsd } from "../utils/formatMoney.js";
 
 function OrderDetailContent() {
   const { id } = useParams();
-  const { user } = useAuth();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const result = await fetchOrderById(user.id, id);
+      const result = await fetchOrderById(id);
       if (!cancelled) {
         setOrder(result);
         setLoading(false);
@@ -26,7 +24,7 @@ function OrderDetailContent() {
     return () => {
       cancelled = true;
     };
-  }, [user.id, id]);
+  }, [id]);
 
   if (loading) {
     return <p className="text-center text-stone-400">Loading order…</p>;

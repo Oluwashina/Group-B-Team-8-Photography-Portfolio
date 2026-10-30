@@ -92,6 +92,29 @@ export default function CartProvider({ children }) {
     persist([]);
   }, [persist]);
 
+  const updateQuantity = useCallback(
+    (galleryItemId, delta) => {
+      if (!user?.id) return;
+      const existing = readStoredCart(user.id);
+      const index = existing.findIndex(
+        (row) => row.galleryItemId === galleryItemId,
+      );
+      if (index < 0) return;
+      const next = [...existing];
+      const newQty = next[index].quantity + delta;
+      if (newQty <= 0) {
+        next.splice(index, 1);
+      } else {
+        next[index] = {
+          ...next[index],
+          quantity: Math.min(3, newQty),
+        };
+      }
+      persist(next);
+    },
+    [persist, user],
+  );
+
   const itemCount = useMemo(
     () => items.reduce((sum, row) => sum + row.quantity, 0),
     [items],
@@ -109,9 +132,10 @@ export default function CartProvider({ children }) {
       subtotalCents,
       addItem,
       removeItem,
+      updateQuantity,
       clearCart,
     }),
-    [items, itemCount, subtotalCents, addItem, removeItem, clearCart],
+    [items, itemCount, subtotalCents, addItem, removeItem, updateQuantity, clearCart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -45,7 +45,7 @@ function EyeIcon({ hidden }) {
   );
 }
 
-export default function AuthModal({ isOpen, mode, onClose, onSubmit }) {
+export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMode }) {
   const titleId = useId();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -184,6 +184,16 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit }) {
           >
             {submitting ? "Please wait…" : submitLabel}
           </button>
+          <p className="text-center text-sm text-stone-500">
+            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button
+              type="button"
+              onClick={onSwitchMode}
+              className="font-medium text-[#ddc9a8] underline-offset-2 hover:underline"
+            >
+              {isSignup ? "Sign in" : "Sign up"}
+            </button>
+          </p>
         </form>
       </div>
     </div>

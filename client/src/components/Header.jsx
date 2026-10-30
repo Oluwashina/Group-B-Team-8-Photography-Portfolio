@@ -1,23 +1,8 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth.js";
 import { useCart } from "../context/useCart.js";
 import { brand, navLinks } from "../data/siteContent";
-
-function displayEmail(email) {
-  const at = email.indexOf("@");
-  if (at <= 0) return email;
-  const local = email.slice(0, at);
-  if (local.length <= 12) return email;
-  return `${local.slice(0, 10)}…${email.slice(at)}`;
-}
-
-function welcomeLabel(user) {
-  const name = user.name?.trim();
-  if (name) {
-    return `Welcome, ${name}`;
-  }
-  return `Welcome, ${displayEmail(user.email)}`;
-}
+import ProfileMenu from "./ProfileMenu.jsx";
 
 function CartNavLink() {
   const { itemCount } = useCart();
@@ -53,7 +38,7 @@ function CartNavLink() {
 }
 
 export default function Header() {
-  const { user, status, logout, openAuth } = useAuth();
+  const { user } = useAuth();
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
@@ -64,101 +49,46 @@ export default function Header() {
         Skip to main content
       </a>
       <div className="pointer-events-auto mx-auto max-w-6xl">
-        <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-white/10 bg-[#100e0c]/80 p-3 shadow-lg shadow-black/40 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:rounded-full sm:px-4 sm:py-2">
-          <p className="m-0 text-center sm:text-left">
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center gap-3 text-stone-100 no-underline transition hover:opacity-90 sm:justify-start"
+        <div className="flex items-center justify-between gap-3 rounded-full border border-white/10 bg-[#100e0c]/80 px-3 py-2 shadow-lg shadow-black/40 backdrop-blur-md sm:px-4">
+          <Link
+            to="/"
+            className="inline-flex min-w-0 items-center gap-2.5 text-stone-100 no-underline transition hover:opacity-90 sm:gap-3"
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-[#ddc9a8] to-[#c8b08a] font-serif text-sm font-semibold text-[#0a0908]"
+              aria-hidden="true"
             >
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-[#ddc9a8] to-[#c8b08a] font-serif text-sm font-semibold text-[#0a0908]"
-                aria-hidden="true"
-              >
-                {brand.monogram}
+              {brand.monogram}
+            </span>
+            <span className="hidden flex-col leading-tight sm:flex">
+              <span className="font-serif text-lg font-semibold">{brand.title}</span>
+              <span className="text-[0.625rem] font-medium uppercase tracking-[0.22em] text-stone-400">
+                {brand.subtitle}
               </span>
-              <span className="flex flex-col leading-tight text-left">
-                <span className="font-serif text-lg font-semibold">{brand.title}</span>
-                <span className="text-[0.625rem] font-medium uppercase tracking-[0.22em] text-stone-400">
-                  {brand.subtitle}
-                </span>
-              </span>
-            </Link>
-          </p>
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
-            <nav aria-label="Primary" className="w-full sm:w-auto">
-              <ul className="m-0 flex list-none flex-wrap justify-center gap-1 rounded-full bg-black/25 p-1 sm:justify-end">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      className="block rounded-full px-3 py-2 text-xs font-medium tracking-wide text-stone-400 no-underline transition hover:bg-white/10 hover:text-stone-100 sm:px-4 sm:text-sm"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-                {user && (
-                  <li>
-                    <NavLink
-                      to="/orders"
-                      className={({ isActive }) =>
-                        `block rounded-full px-3 py-2 text-xs font-medium tracking-wide no-underline transition sm:px-4 sm:text-sm ${
-                          isActive
-                            ? "bg-[#ddc9a8] text-[#0a0908]"
-                            : "text-stone-400 hover:bg-white/10 hover:text-stone-100"
-                        }`
-                      }
-                    >
-                      Orders
-                    </NavLink>
-                  </li>
-                )}
-              </ul>
-            </nav>
-            <div
-              className="flex flex-wrap items-center justify-center gap-2 border-t border-white/10 pt-2 sm:border-t-0 sm:pt-0"
-              aria-label="Account and cart"
-            >
-              <CartNavLink />
-              {status === "loading" && (
-                <span className="px-2 text-xs text-stone-500">…</span>
-              )}
-              {status === "ready" && user && (
-                <>
-                  <span
-                    className="max-w-[14rem] truncate text-xs text-stone-300 sm:max-w-[16rem] sm:text-sm"
-                    title={user.name?.trim() || user.email}
+            </span>
+          </Link>
+
+          <nav aria-label="Primary" className="min-w-0 flex-1 px-2">
+            <ul className="m-0 flex list-none justify-center gap-0.5 sm:gap-1">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="block rounded-full px-2.5 py-2 text-xs font-medium tracking-wide text-stone-400 no-underline transition hover:bg-white/10 hover:text-stone-100 sm:px-3.5 sm:text-sm"
                   >
-                    {welcomeLabel(user)}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => logout()}
-                    className="rounded-full border border-white/15 px-3 py-2 text-xs font-medium text-stone-200 transition hover:border-[#c8b08a]/50 hover:bg-white/5 sm:text-sm"
-                  >
-                    Sign out
-                  </button>
-                </>
-              )}
-              {status === "ready" && !user && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => openAuth("login")}
-                    className="rounded-full px-3 py-2 text-xs font-medium text-stone-300 transition hover:bg-white/10 hover:text-stone-100 sm:text-sm"
-                  >
-                    Sign in
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => openAuth("signup")}
-                    className="rounded-full bg-[#ddc9a8] px-3 py-2 text-xs font-semibold text-[#0a0908] transition hover:bg-[#c8b08a] sm:text-sm"
-                  >
-                    Sign up
-                  </button>
-                </>
-              )}
-            </div>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div
+            className="flex shrink-0 items-center gap-1 sm:gap-2"
+            aria-label="Cart and account"
+          >
+            {user && <CartNavLink />}
+            <ProfileMenu />
           </div>
         </div>
       </div>

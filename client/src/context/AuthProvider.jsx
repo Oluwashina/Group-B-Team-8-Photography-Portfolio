@@ -52,6 +52,11 @@ export default function AuthProvider({ children }) {
     setAuthOpen(false);
   }, []);
 
+  const switchAuthMode = useCallback(() => {
+    setAuthMode((mode) => (mode === "login" ? "signup" : "login"));
+    setAuthFormKey((key) => key + 1);
+  }, []);
+
   const signup = useCallback(async (name, email, password) => {
     const data = await authApi.signup(name, email, password);
     setUser(data.user);
@@ -104,6 +109,7 @@ export default function AuthProvider({ children }) {
         mode={authMode}
         onClose={closeAuth}
         onSubmit={handleAuthSubmit}
+        onSwitchMode={switchAuthMode}
       />
     </AuthContext.Provider>
   );

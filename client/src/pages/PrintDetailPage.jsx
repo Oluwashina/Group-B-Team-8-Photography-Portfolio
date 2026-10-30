@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchGalleryItems } from "../api/gallery";
 import Footer from "../components/Footer";
 import ShopPageLayout from "../components/ShopPageLayout";
@@ -10,7 +10,6 @@ import { formatUsd } from "../utils/formatMoney.js";
 
 export default function PrintDetailPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { isAuthenticated, openAuth } = useAuth();
   const { addItem } = useCart();
   const [product, setProduct] = useState(null);
@@ -49,13 +48,6 @@ export default function PrintDetailPage() {
     }
   }
 
-  function handleBuyNow() {
-    handleAddToCart();
-    if (isAuthenticated) {
-      navigate("/cart");
-    }
-  }
-
   if (loadState === "loading") {
     return (
       <>
@@ -80,6 +72,8 @@ export default function PrintDetailPage() {
       </>
     );
   }
+
+  const priceCents = product.priceCents ?? 0;
 
   return (
     <>
@@ -107,7 +101,7 @@ export default function PrintDetailPage() {
               {product.captionLabel}
             </h1>
             <p className="mt-4 font-serif text-3xl text-[#ddc9a8]">
-              {formatUsd(product.priceCents)}
+              {priceCents > 0 ? formatUsd(priceCents) : "—"}
             </p>
             <p className="mt-4 text-stone-300">{product.captionText}</p>
             <p className="mt-4 text-sm leading-relaxed text-stone-400">
@@ -118,7 +112,7 @@ export default function PrintDetailPage() {
                 Sign in to add prints to your cart.
               </p>
             )}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8">
               <button
                 type="button"
                 onClick={handleAddToCart}
@@ -126,19 +120,6 @@ export default function PrintDetailPage() {
               >
                 {added ? "Added to cart" : "Add to cart"}
               </button>
-              <button
-                type="button"
-                onClick={handleBuyNow}
-                className="rounded-full border border-[#c8b08a]/50 px-6 py-3 text-sm font-semibold text-stone-100 transition hover:border-[#ddc9a8] hover:bg-white/5"
-              >
-                Buy now
-              </button>
-              <Link
-                to="/cart"
-                className="rounded-full px-4 py-3 text-sm text-stone-400 hover:text-stone-200"
-              >
-                View cart
-              </Link>
             </div>
           </div>
         </div>

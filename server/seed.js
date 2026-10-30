@@ -1,10 +1,13 @@
 import "dotenv/config";
 import { galleryItems } from "../client/src/data/galleryItems.js";
-import { printMetaById } from "../client/src/data/printCatalog.js";
+import {
+  defaultSeedPriceCents,
+  seedPriceCentsById,
+} from "./data/seedPrices.js";
 import pool from "./db/pool.js";
 
 function priceCentsForItem(item) {
-  return printMetaById[item.id]?.priceCents ?? 4500;
+  return seedPriceCentsById[item.id] ?? defaultSeedPriceCents;
 }
 
 async function seed() {
