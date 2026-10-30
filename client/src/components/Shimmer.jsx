@@ -1,7 +1,7 @@
 export function ShimmerBlock({ className = "", ...props }) {
   return (
     <div
-      className={`animate-shimmer rounded-lg bg-stone-900 ${className}`}
+      className={`animate-shimmer rounded-lg bg-sand ${className}`}
       aria-hidden="true"
       {...props}
     />
@@ -58,7 +58,7 @@ export function CartLinesShimmer({ count = 2 }) {
   return (
     <ul className="mt-8 space-y-4" role="status" aria-label="Loading cart">
       {Array.from({ length: count }, (_, i) => (
-        <li key={i} className="flex gap-4 rounded-xl border border-white/5 p-3 sm:p-4">
+        <li key={i} className="flex gap-4 rounded-2xl border border-line bg-surface p-3 sm:p-4">
           <ShimmerBlock className="h-20 w-20 shrink-0 rounded-lg sm:h-24 sm:w-24" />
           <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
@@ -93,7 +93,7 @@ export function OrderDetailShimmer() {
       <ShimmerBlock className="h-4 w-40" />
       <ul className="mt-8 space-y-4">
         {[0, 1].map((i) => (
-          <li key={i} className="flex gap-4 rounded-xl border border-white/5 p-4">
+          <li key={i} className="flex gap-4 rounded-2xl border border-line bg-surface p-4">
             <ShimmerBlock className="h-20 w-20 rounded-lg" />
             <div className="flex-1 space-y-2">
               <ShimmerBlock className="h-5 w-36" />

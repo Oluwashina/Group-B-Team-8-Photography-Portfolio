@@ -5,10 +5,10 @@ export default function CartLineItem({ line, onRemove, onUpdateQuantity }) {
   const lineTotal = line.priceCents * line.quantity;
 
   return (
-    <li className="flex gap-4 rounded-xl border border-white/10 bg-[#161412] p-3 sm:p-4">
+    <li className="flex gap-4 rounded-2xl border border-line bg-surface p-3 shadow-sm shadow-stone-900/5 sm:p-4">
       <Link
         to={`/prints/${line.galleryItemId}`}
-        className="block h-20 w-20 shrink-0 overflow-hidden rounded-lg sm:h-24 sm:w-24"
+        className="block h-20 w-20 shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-24"
       >
         <img src={line.src} alt="" className="h-full w-full object-cover" />
       </Link>
@@ -16,43 +16,43 @@ export default function CartLineItem({ line, onRemove, onUpdateQuantity }) {
         <div className="min-w-0">
           <Link
             to={`/prints/${line.galleryItemId}`}
-            className="font-medium text-stone-100 no-underline hover:text-[#ddc9a8]"
+            className="font-medium text-ink no-underline hover:text-accent"
           >
             {line.title}
           </Link>
-          <p className="text-sm text-stone-500">{formatUsd(line.priceCents)} each</p>
+          <p className="text-sm text-muted">{formatUsd(line.priceCents)} each</p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 sm:justify-end">
           <div
-            className="flex items-center rounded-full border border-white/15 bg-black/30"
+            className="flex items-center rounded-full border border-line bg-canvas"
             aria-label={`Quantity for ${line.title}`}
           >
             <button
               type="button"
               onClick={() => onUpdateQuantity(line.galleryItemId, -1)}
-              className="flex h-8 w-8 items-center justify-center rounded-l-full text-stone-300 hover:bg-white/10"
+              className="flex h-8 w-8 items-center justify-center rounded-l-full text-body hover:bg-sand"
               aria-label="Decrease quantity"
             >
               −
             </button>
-            <span className="min-w-[2rem] text-center text-sm text-stone-100">
+            <span className="min-w-[2rem] text-center text-sm text-ink">
               {line.quantity}
             </span>
             <button
               type="button"
               onClick={() => onUpdateQuantity(line.galleryItemId, 1)}
               disabled={line.quantity >= 3}
-              className="flex h-8 w-8 items-center justify-center rounded-r-full text-stone-300 hover:bg-white/10 disabled:opacity-40"
+              className="flex h-8 w-8 items-center justify-center rounded-r-full text-body hover:bg-sand disabled:opacity-40"
               aria-label="Increase quantity"
             >
               +
             </button>
           </div>
-          <p className="font-serif text-lg text-[#ddc9a8]">{formatUsd(lineTotal)}</p>
+          <p className="font-serif text-xl text-ink">{formatUsd(lineTotal)}</p>
           <button
             type="button"
             onClick={() => onRemove(line.galleryItemId)}
-            className="text-xs text-stone-400 underline-offset-2 hover:text-stone-200 hover:underline"
+            className="text-xs text-muted underline-offset-2 hover:text-ink hover:underline"
           >
             Remove
           </button>

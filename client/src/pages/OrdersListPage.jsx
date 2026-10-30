@@ -39,14 +39,14 @@ function OrdersContent() {
 
   return (
     <>
-      <h1 className="font-serif text-3xl text-stone-100">My orders</h1>
-      <p className="mt-2 text-stone-400">Print orders tied to your account.</p>
+      <h1 className="font-serif text-3xl text-ink">My orders</h1>
+      <p className="mt-2 text-muted">Print orders tied to your account.</p>
       {orders.length === 0 ? (
         <div className="flex min-h-[45vh] flex-col items-center justify-center py-12 text-center">
-          <p className="text-stone-500">No orders yet.</p>
+          <p className="text-muted">No orders yet.</p>
           <Link
             to="/#gallery"
-            className="mt-6 inline-block rounded-full border border-white/15 px-6 py-2.5 text-sm text-stone-200 hover:bg-white/5"
+            className="mt-6 inline-block rounded-full border border-line bg-surface px-6 py-3 text-sm text-ink transition hover:border-accent hover:text-accent"
           >
             Shop prints
           </Link>
@@ -57,11 +57,11 @@ function OrdersContent() {
             <li key={order.id}>
               <Link
                 to={`/orders/${order.id}`}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#161412] p-4 no-underline transition hover:border-[#c8b08a]/40"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4 no-underline shadow-sm shadow-stone-900/5 transition hover:border-accent/50 hover:shadow-md"
               >
                 <div>
-                  <p className="font-mono text-sm text-stone-300">{order.id}</p>
-                  <p className="text-xs text-stone-500">
+                  <p className="font-mono text-sm text-body">{order.id}</p>
+                  <p className="text-xs text-muted">
                     {new Date(order.createdAt).toLocaleString("en-US", {
                       dateStyle: "medium",
                       timeStyle: "short",
@@ -70,7 +70,7 @@ function OrdersContent() {
                 </div>
                 <div className="flex items-center gap-4">
                   <OrderStatusBadge status={order.status} />
-                  <span className="font-serif text-lg text-[#ddc9a8]">
+                  <span className="font-serif text-lg text-ink">
                     {formatUsd(order.totalCents)}
                   </span>
                 </div>

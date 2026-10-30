@@ -10,7 +10,7 @@ function CartNavLink() {
   return (
     <Link
       to="/cart"
-      className="relative flex h-9 w-9 items-center justify-center rounded-full text-stone-300 transition hover:bg-white/10 hover:text-stone-100"
+      className="relative flex h-9 w-9 items-center justify-center rounded-full text-body transition hover:bg-sand hover:text-ink"
       aria-label={itemCount ? `Cart, ${itemCount} items` : "Cart"}
     >
       <svg
@@ -29,7 +29,7 @@ function CartNavLink() {
         />
       </svg>
       {itemCount > 0 && (
-        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#ddc9a8] px-1 text-[0.625rem] font-bold text-[#0a0908]">
+        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[0.625rem] font-bold text-white">
           {itemCount > 9 ? "9+" : itemCount}
         </span>
       )}
@@ -44,25 +44,25 @@ export default function Header() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
       <a
         href="#main-content"
-        className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded focus:bg-[#ddc9a8] focus:px-4 focus:py-2 focus:font-semibold focus:text-[#0a0908]"
+        className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:font-semibold focus:text-white"
       >
         Skip to main content
       </a>
       <div className="pointer-events-auto mx-auto max-w-6xl">
-        <div className="flex items-center justify-between gap-3 rounded-full border border-white/10 bg-[#100e0c]/80 px-3 py-2 shadow-lg shadow-black/40 backdrop-blur-md sm:px-4">
+        <div className="flex items-center justify-between gap-3 rounded-full border border-line bg-surface/85 px-3 py-2 shadow-lg shadow-stone-900/5 backdrop-blur-md sm:px-4">
           <Link
             to="/"
-            className="inline-flex min-w-0 items-center gap-2.5 text-stone-100 no-underline transition hover:opacity-90 sm:gap-3"
+            className="inline-flex min-w-0 items-center gap-2.5 text-ink no-underline transition hover:opacity-80 sm:gap-3"
           >
             <span
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-[#ddc9a8] to-[#c8b08a] font-serif text-sm font-semibold text-[#0a0908]"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink font-serif text-sm font-semibold text-canvas"
               aria-hidden="true"
             >
               {brand.monogram}
             </span>
             <span className="hidden flex-col leading-tight sm:flex">
               <span className="font-serif text-lg font-semibold">{brand.title}</span>
-              <span className="text-[0.625rem] font-medium uppercase tracking-[0.22em] text-stone-400">
+              <span className="text-[0.625rem] font-medium uppercase tracking-[0.22em] text-muted">
                 {brand.subtitle}
               </span>
             </span>
@@ -74,7 +74,7 @@ export default function Header() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="block rounded-full px-2.5 py-2 text-xs font-medium tracking-wide text-stone-400 no-underline transition hover:bg-white/10 hover:text-stone-100 sm:px-3.5 sm:text-sm"
+                    className="block rounded-full px-2.5 py-2 text-xs font-medium tracking-wide text-muted no-underline transition hover:bg-sand hover:text-ink sm:px-3.5 sm:text-sm"
                   >
                     {link.label}
                   </a>

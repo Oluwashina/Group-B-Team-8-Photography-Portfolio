@@ -52,10 +52,10 @@ export default function FavoriteToggle({ isSaved, onChange, itemLabel }) {
         event.preventDefault();
         onChange(!isSaved);
       }}
-      className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-md transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+      className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-md transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
         isSaved
-          ? "border-[#c8b08a]/60 bg-[#0a0908]/80 text-[#ddc9a8] opacity-100 shadow-md"
-          : "border-white/15 bg-black/45 text-stone-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 hover:border-[#c8b08a]/40 hover:bg-black/65 hover:text-[#ddc9a8]"
+          ? "border-accent/30 bg-white text-accent opacity-100 shadow-md"
+          : "border-white/70 bg-white/85 text-ink opacity-100 shadow-sm sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 hover:bg-white hover:text-accent"
       }`}
     >
       <BookmarkIcon filled={isSaved} />

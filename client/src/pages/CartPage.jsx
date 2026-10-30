@@ -34,14 +34,14 @@ function CartContent() {
   if (items.length === 0) {
     return (
       <div className="flex min-h-[50vh] flex-col items-center justify-center py-8 text-center">
-        <h1 className="font-serif text-3xl text-stone-100">Your cart</h1>
-        <p className="mt-4 max-w-sm text-stone-400">
+        <h1 className="font-serif text-3xl text-ink">Your cart</h1>
+        <p className="mt-4 max-w-sm text-muted">
           No prints yet. Browse the gallery and add archival prints when you are
           ready.
         </p>
         <Link
           to="/#gallery"
-          className="mt-6 inline-block rounded-full bg-[#ddc9a8] px-6 py-2.5 text-sm font-semibold text-[#0a0908] hover:bg-[#c8b08a]"
+          className="mt-6 inline-block rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition hover:bg-accent-strong"
         >
           Browse gallery
         </Link>
@@ -51,8 +51,8 @@ function CartContent() {
 
   return (
     <>
-      <h1 className="font-serif text-3xl text-stone-100">Your cart</h1>
-      <p className="mt-2 text-stone-400">Review your prints before checkout.</p>
+      <h1 className="font-serif text-3xl text-ink">Your cart</h1>
+      <p className="mt-2 text-muted">Review your prints before checkout.</p>
       <ul className="mt-8 space-y-4">
         {items.map((line) => (
           <CartLineItem
@@ -63,26 +63,26 @@ function CartContent() {
           />
         ))}
       </ul>
-      <div className="mt-8 flex flex-col items-stretch justify-between gap-4 rounded-2xl border border-white/10 bg-[#161412] p-6 sm:flex-row sm:items-center">
+      <div className="mt-8 flex flex-col items-stretch justify-between gap-4 rounded-3xl border border-line bg-surface p-6 shadow-sm shadow-stone-900/5 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm text-stone-500">Subtotal</p>
-          <p className="font-serif text-2xl text-[#ddc9a8]">
+          <p className="text-sm text-muted">Subtotal</p>
+          <p className="font-serif text-2xl text-ink">
             {formatUsd(subtotalCents)}
           </p>
-          <p className="mt-1 text-xs text-stone-500">
+          <p className="mt-1 text-xs text-muted">
             Secure checkout powered by Stripe (test mode).
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:items-end">
           {checkoutError && (
-            <p className="text-sm text-red-300" role="alert">
+            <p className="text-sm text-red-600" role="alert">
               {checkoutError}
             </p>
           )}
           <div className="flex flex-wrap gap-3">
             <Link
               to="/#gallery"
-              className="rounded-full border border-white/15 px-5 py-2.5 text-sm text-stone-300 hover:bg-white/5"
+              className="rounded-full border border-line bg-surface px-5 py-3 text-sm text-body transition hover:border-accent hover:text-ink"
             >
               Continue browsing
             </Link>
@@ -90,7 +90,7 @@ function CartContent() {
               type="button"
               disabled={checkingOut}
               onClick={handleCheckout}
-              className="rounded-full bg-[#ddc9a8] px-6 py-2.5 text-sm font-semibold text-[#0a0908] disabled:opacity-60 hover:bg-[#c8b08a]"
+              className="rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition disabled:opacity-60 hover:bg-accent-strong"
             >
               {checkingOut ? "Redirecting to Stripe…" : "Proceed to checkout"}
             </button>

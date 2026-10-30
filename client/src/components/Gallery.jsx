@@ -171,14 +171,8 @@ export default function Gallery() {
           placeholder="Search by place, mood, or keyword…"
         />
 
-        {user && loadState === "ready" && (
-          <p className="text-center text-xs text-stone-500">
-            Signed in — bookmarks save to your account.
-          </p>
-        )}
-
         {favoriteError && (
-          <p className="text-center text-sm text-red-300" role="alert">
+          <p className="text-center text-sm text-red-600" role="alert">
             {favoriteError}
           </p>
         )}
@@ -196,10 +190,10 @@ export default function Gallery() {
                   key={category}
                   type="button"
                   onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                  className={`rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
                     isActive
-                      ? "bg-[#ddc9a8] text-[#0a0908]"
-                      : "border border-white/15 bg-black/30 text-stone-300 hover:border-[#c8b08a]/50 hover:text-stone-100"
+                      ? "bg-ink text-white shadow-md shadow-stone-900/10"
+                      : "border border-line bg-surface text-body hover:border-accent hover:text-ink"
                   }`}
                   aria-pressed={isActive}
                 >
@@ -215,18 +209,18 @@ export default function Gallery() {
 
       {loadState === "error" && (
         <div className="mx-auto max-w-md text-center">
-          <p className="text-stone-300" role="alert">
+          <p className="text-body" role="alert">
             We could not load the gallery. {loadError}
           </p>
-          <p className="mt-2 text-sm text-stone-500">
+          <p className="mt-2 text-sm text-muted">
             Make sure the API is running (
-            <code className="text-stone-400">npm run dev:server</code>
+            <code className="text-body">npm run dev:server</code>
             ).
           </p>
           <button
             type="button"
             onClick={loadGallery}
-            className="mt-4 rounded-full border border-[#c8b08a]/50 bg-black/30 px-5 py-2 text-sm font-medium text-stone-100 transition hover:border-[#ddc9a8] hover:bg-white/5"
+            className="mt-4 rounded-full border border-line bg-surface px-5 py-2 text-sm font-medium text-ink transition hover:border-accent hover:text-accent"
           >
             Try again
           </button>
@@ -234,7 +228,7 @@ export default function Gallery() {
       )}
 
       {loadState === "ready" && filteredItems.length === 0 && (
-        <p className="text-center text-stone-400">
+        <p className="text-center text-muted">
           No photos match your search. Try another word or category.
         </p>
       )}

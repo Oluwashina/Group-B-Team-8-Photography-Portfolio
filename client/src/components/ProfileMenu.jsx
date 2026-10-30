@@ -39,7 +39,7 @@ export default function ProfileMenu() {
       <button
         type="button"
         onClick={() => openAuth("login")}
-        className="flex h-9 w-9 items-center justify-center rounded-full text-stone-300 transition hover:bg-white/10 hover:text-stone-100"
+        className="flex h-9 w-9 items-center justify-center rounded-full text-body transition hover:bg-sand hover:text-ink"
         aria-label="Sign in"
       >
         <svg
@@ -66,7 +66,7 @@ export default function ProfileMenu() {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c8b08a]/25 text-[#ddc9a8] ring-1 ring-[#c8b08a]/40 transition hover:bg-[#c8b08a]/35"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-soft text-accent-strong ring-1 ring-accent/30 transition hover:bg-accent/15"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={menuId}
@@ -80,16 +80,16 @@ export default function ProfileMenu() {
         <div
           id={menuId}
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 min-w-[12rem] rounded-xl border border-white/10 bg-[#100e0c] py-2 shadow-xl shadow-black/50"
+          className="absolute right-0 top-full z-50 mt-2 min-w-[12rem] overflow-hidden rounded-2xl border border-line bg-surface py-2 shadow-xl shadow-stone-900/10"
         >
-          <p className="border-b border-white/10 px-4 py-2 text-sm text-stone-300">
+          <p className="border-b border-line px-4 py-2 text-sm text-body">
             Welcome, {welcomeShort(user)}
           </p>
           <Link
             to="/orders"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="block px-4 py-2.5 text-sm text-stone-200 no-underline hover:bg-white/5"
+            className="block px-4 py-2.5 text-sm text-ink no-underline hover:bg-sand"
           >
             My orders
           </Link>
@@ -100,7 +100,7 @@ export default function ProfileMenu() {
               setOpen(false);
               logout();
             }}
-            className="block w-full px-4 py-2.5 text-left text-sm text-stone-400 hover:bg-white/5 hover:text-stone-200"
+            className="block w-full px-4 py-2.5 text-left text-sm text-muted hover:bg-sand hover:text-ink"
           >
             Sign out
           </button>

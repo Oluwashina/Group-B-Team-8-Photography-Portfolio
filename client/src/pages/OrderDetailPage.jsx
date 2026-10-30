@@ -33,8 +33,8 @@ function OrderDetailContent() {
   if (!order) {
     return (
       <div className="flex min-h-[50vh] flex-col justify-center">
-        <h1 className="font-serif text-2xl text-stone-100">Order not found</h1>
-        <Link to="/orders" className="mt-4 inline-block text-[#ddc9a8]">
+        <h1 className="font-serif text-2xl text-ink">Order not found</h1>
+        <Link to="/orders" className="mt-4 inline-block text-ink">
           All orders
         </Link>
       </div>
@@ -43,15 +43,15 @@ function OrderDetailContent() {
 
   return (
     <>
-      <Link to="/orders" className="text-sm text-stone-500 hover:text-stone-300">
+      <Link to="/orders" className="text-sm text-muted hover:text-ink">
         ← All orders
       </Link>
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <h1 className="font-serif text-3xl text-stone-100">Order details</h1>
+        <h1 className="font-serif text-3xl text-ink">Order details</h1>
         <OrderStatusBadge status={order.status} />
       </div>
-      <p className="mt-2 font-mono text-sm text-stone-400">{order.id}</p>
-      <p className="mt-1 text-sm text-stone-500">
+      <p className="mt-2 font-mono text-sm text-muted">{order.id}</p>
+      <p className="mt-1 text-sm text-muted">
         {new Date(order.createdAt).toLocaleString("en-US", {
           dateStyle: "full",
           timeStyle: "short",
@@ -61,31 +61,31 @@ function OrderDetailContent() {
         {order.items.map((item) => (
           <li
             key={`${item.galleryItemId}-${item.title}`}
-            className="flex gap-4 rounded-xl border border-white/10 bg-[#161412] p-4"
+            className="flex gap-4 rounded-2xl border border-line bg-surface p-4 shadow-sm shadow-stone-900/5"
           >
             <img
               src={item.src}
               alt=""
-              className="h-20 w-20 rounded-lg object-cover"
+              className="h-20 w-20 rounded-xl object-cover"
             />
             <div className="min-w-0 flex-1">
               <Link
                 to={`/prints/${item.galleryItemId}`}
-                className="font-medium text-stone-100 no-underline hover:text-[#ddc9a8]"
+                className="font-medium text-ink no-underline hover:text-accent"
               >
                 {item.title}
               </Link>
-              <p className="text-sm text-stone-500">
+              <p className="text-sm text-muted">
                 Qty {item.quantity} · {formatUsd(item.unitPriceCents)} each
               </p>
             </div>
-            <p className="font-serif text-lg text-[#ddc9a8]">
+            <p className="font-serif text-lg text-ink">
               {formatUsd(item.unitPriceCents * item.quantity)}
             </p>
           </li>
         ))}
       </ul>
-      <p className="mt-8 text-right font-serif text-2xl text-[#ddc9a8]">
+      <p className="mt-8 text-right font-serif text-2xl text-ink">
         Total {formatUsd(order.totalCents)}
       </p>
     </>

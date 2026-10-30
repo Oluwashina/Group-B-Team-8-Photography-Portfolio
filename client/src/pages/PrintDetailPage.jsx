@@ -60,8 +60,8 @@ export default function PrintDetailPage() {
     return (
       <ShopPageLayout narrow>
         <div className="flex min-h-[50vh] flex-col justify-center">
-          <h1 className="font-serif text-2xl text-stone-100">Print not found</h1>
-          <Link to="/#gallery" className="mt-4 inline-block text-[#ddc9a8]">
+          <h1 className="font-serif text-2xl text-ink">Print not found</h1>
+          <Link to="/#gallery" className="mt-4 inline-block text-accent">
             Back to gallery
           </Link>
         </div>
@@ -73,15 +73,15 @@ export default function PrintDetailPage() {
 
   return (
     <ShopPageLayout>
-      <nav className="mb-6 text-sm text-stone-500">
-        <Link to="/#gallery" className="text-stone-400 hover:text-stone-200">
+      <nav className="mb-6 text-sm text-muted">
+        <Link to="/#gallery" className="text-muted hover:text-ink">
           Gallery
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-stone-300">{product.captionLabel}</span>
+        <span className="text-body">{product.captionLabel}</span>
       </nav>
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-stone-900 shadow-xl">
+        <div className="overflow-hidden rounded-3xl border border-line bg-sand shadow-xl shadow-stone-900/10">
           <img
             src={product.src}
             alt={product.alt}
@@ -89,24 +89,24 @@ export default function PrintDetailPage() {
           />
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-stone-500">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
             {product.category}
           </p>
-          <h1 className="mt-2 font-serif text-3xl text-stone-100 sm:text-4xl">
+          <h1 className="mt-2 font-serif text-3xl text-ink sm:text-4xl">
             {product.captionLabel}
           </h1>
-          <p className="mt-4 font-serif text-3xl text-[#ddc9a8]">
+          <p className="mt-4 font-serif text-3xl text-accent">
             {priceCents > 0 ? formatUsd(priceCents) : "—"}
           </p>
-          <p className="mt-4 text-stone-300">{product.captionText}</p>
-          <p className="mt-4 text-sm leading-relaxed text-stone-400">
+          <p className="mt-4 text-body">{product.captionText}</p>
+          <p className="mt-4 text-sm leading-relaxed text-muted">
             {product.printDescription}
           </p>
           <div className="mt-8">
             <button
               type="button"
               onClick={handleAddToCart}
-              className="rounded-full bg-[#ddc9a8] px-6 py-3 text-sm font-semibold text-[#0a0908] transition hover:bg-[#c8b08a]"
+              className="rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-stone-900/10 transition hover:bg-accent-strong"
             >
               {added ? "Added to cart" : "Add to cart"}
             </button>

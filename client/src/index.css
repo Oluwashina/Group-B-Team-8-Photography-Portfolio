@@ -3,6 +3,18 @@
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Outfit", system-ui, sans-serif;
+
+  /* Light premium palette: warm ivory, soft sand, ink text, bronze accent */
+  --color-canvas: #faf8f4;
+  --color-surface: #ffffff;
+  --color-sand: #f3efe8;
+  --color-line: #e8e2d8;
+  --color-ink: #1c1917;
+  --color-body: #44403c;
+  --color-muted: #78716c;
+  --color-accent: #8c6d3f;
+  --color-accent-strong: #6f5530;
+  --color-accent-soft: #f2e9d8;
 }
 
 @layer base {
@@ -11,7 +23,7 @@
   }
 
   body {
-    @apply overflow-x-hidden bg-[#0a0908] font-sans text-stone-100 antialiased;
+    @apply overflow-x-hidden bg-canvas font-sans text-ink antialiased;
   }
 }
 
@@ -27,11 +39,11 @@
 @utility animate-shimmer {
   background-image: linear-gradient(
     110deg,
-    #1c1917 0%,
-    #1c1917 40%,
-    #292524 50%,
-    #1c1917 60%,
-    #1c1917 100%
+    #efeae1 0%,
+    #efeae1 40%,
+    #f8f5ef 50%,
+    #efeae1 60%,
+    #efeae1 100%
   );
   background-size: 200% 100%;
   animation: shimmer-sweep 1.5s ease-in-out infinite;

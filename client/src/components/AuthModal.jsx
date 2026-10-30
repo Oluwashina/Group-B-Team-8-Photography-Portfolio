@@ -76,7 +76,7 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
 
   return (
     <div
-      className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-stone-900/40 p-4 backdrop-blur-sm"
       role="presentation"
       onClick={onClose}
     >
@@ -84,22 +84,22 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-md rounded-2xl border border-white/10 bg-[#100e0c] p-6 shadow-2xl shadow-black/50"
+        className="w-full max-w-md rounded-3xl border border-line bg-surface p-7 shadow-2xl shadow-stone-900/20"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
               Golden Hour Studio
             </p>
-            <h2 id={titleId} className="mt-1 font-serif text-2xl text-stone-100">
+            <h2 id={titleId} className="mt-1 font-serif text-2xl text-ink">
               {heading}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full px-2 py-1 text-stone-400 transition hover:bg-white/10 hover:text-stone-100"
+            className="rounded-full px-2 py-1 text-muted transition hover:bg-sand hover:text-ink"
             aria-label="Close"
           >
             ×
@@ -109,7 +109,7 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
         <form className="space-y-4" onSubmit={handleSubmit}>
           {isSignup && (
             <div>
-              <label htmlFor="auth-name" className="mb-1 block text-sm text-stone-400">
+              <label htmlFor="auth-name" className="mb-1 block text-sm text-muted">
                 Name
               </label>
               <input
@@ -120,12 +120,12 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
                 maxLength={80}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-stone-100 outline-none ring-[#c8b08a]/40 focus:ring-2"
+                className="w-full rounded-xl border border-line bg-canvas px-3 py-2 text-ink outline-none ring-accent/30 focus:border-accent focus:bg-surface focus:ring-2"
               />
             </div>
           )}
           <div>
-            <label htmlFor="auth-email" className="mb-1 block text-sm text-stone-400">
+            <label htmlFor="auth-email" className="mb-1 block text-sm text-muted">
               Email
             </label>
             <input
@@ -135,13 +135,13 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-stone-100 outline-none ring-[#c8b08a]/40 focus:ring-2"
+              className="w-full rounded-xl border border-line bg-canvas px-3 py-2 text-ink outline-none ring-accent/30 focus:border-accent focus:bg-surface focus:ring-2"
             />
           </div>
           <div>
             <label
               htmlFor="auth-password"
-              className="mb-1 block text-sm text-stone-400"
+              className="mb-1 block text-sm text-muted"
             >
               Password
             </label>
@@ -154,12 +154,12 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
                 minLength={isSignup ? 8 : undefined}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-3 pr-11 text-stone-100 outline-none ring-[#c8b08a]/40 focus:ring-2"
+                className="w-full rounded-xl border border-line bg-canvas py-2 pl-3 pr-11 text-ink outline-none ring-accent/30 focus:border-accent focus:bg-surface focus:ring-2"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((visible) => !visible)}
-                className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-stone-400 transition hover:bg-white/10 hover:text-stone-100"
+                className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-muted transition hover:bg-sand hover:text-ink"
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 aria-pressed={showPassword}
               >
@@ -167,12 +167,12 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
               </button>
             </div>
             {isSignup && (
-              <p className="mt-1 text-xs text-stone-500">At least 8 characters</p>
+              <p className="mt-1 text-xs text-muted">At least 8 characters</p>
             )}
           </div>
 
           {error && (
-            <p className="text-sm text-red-300" role="alert">
+            <p className="text-sm text-red-600" role="alert">
               {error}
             </p>
           )}
@@ -180,16 +180,16 @@ export default function AuthModal({ isOpen, mode, onClose, onSubmit, onSwitchMod
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-full bg-[#ddc9a8] px-4 py-2.5 text-sm font-semibold text-[#0a0908] transition hover:bg-[#c8b08a] disabled:opacity-60"
+            className="w-full rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-60"
           >
             {submitting ? "Please wait…" : submitLabel}
           </button>
-          <p className="text-center text-sm text-stone-500">
+          <p className="text-center text-sm text-muted">
             {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
             <button
               type="button"
               onClick={onSwitchMode}
-              className="font-medium text-[#ddc9a8] underline-offset-2 hover:underline"
+              className="font-medium text-accent underline-offset-2 hover:underline"
             >
               {isSignup ? "Sign in" : "Sign up"}
             </button>
