@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchOrdersForUser } from "../api/orders.js";
-import Footer from "../components/Footer";
 import OrderStatusBadge from "../components/OrderStatusBadge.jsx";
 import RequireAuth from "../components/RequireAuth.jsx";
 import ShopPageLayout from "../components/ShopPageLayout.jsx";
+import { OrdersListShimmer, PageHeaderShimmer } from "../components/Shimmer.jsx";
 import { useAuth } from "../context/useAuth.js";
 import { formatUsd } from "../utils/formatMoney.js";
 
@@ -29,7 +29,12 @@ function OrdersContent() {
   }, [user?.id]);
 
   if (loading) {
-    return <p className="text-center text-stone-400">Loading orders…</p>;
+    return (
+      <>
+        <PageHeaderShimmer />
+        <OrdersListShimmer />
+      </>
+    );
   }
 
   return (
@@ -37,7 +42,15 @@ function OrdersContent() {
       <h1 className="font-serif text-3xl text-stone-100">My orders</h1>
       <p className="mt-2 text-stone-400">Print orders tied to your account.</p>
       {orders.length === 0 ? (
-        <p className="mt-8 text-stone-500">No orders yet.</p>
+        <div className="flex min-h-[45vh] flex-col items-center justify-center py-12 text-center">
+          <p className="text-stone-500">No orders yet.</p>
+          <Link
+            to="/#gallery"
+            className="mt-6 inline-block rounded-full border border-white/15 px-6 py-2.5 text-sm text-stone-200 hover:bg-white/5"
+          >
+            Shop prints
+          </Link>
+        </div>
       ) : (
         <ul className="mt-8 space-y-3">
           {orders.map((order) => (
@@ -72,13 +85,10 @@ function OrdersContent() {
 
 export default function OrdersListPage() {
   return (
-    <>
-      <ShopPageLayout narrow>
-        <RequireAuth title="Sign in to view your orders">
-          <OrdersContent />
-        </RequireAuth>
-      </ShopPageLayout>
-      <Footer />
-    </>
+    <ShopPageLayout narrow>
+      <RequireAuth title="Sign in to view your orders">
+        <OrdersContent />
+      </RequireAuth>
+    </ShopPageLayout>
   );
 }

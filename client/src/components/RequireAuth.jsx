@@ -1,3 +1,4 @@
+import { PageHeaderShimmer, ShimmerBlock } from "./Shimmer.jsx";
 import { useAuth } from "../context/useAuth.js";
 
 export default function RequireAuth({ children, title = "Sign in required" }) {
@@ -5,15 +6,16 @@ export default function RequireAuth({ children, title = "Sign in required" }) {
 
   if (status === "loading") {
     return (
-      <p className="py-24 text-center text-stone-400" role="status">
-        Loading…
-      </p>
+      <div className="py-8" role="status" aria-label="Loading account">
+        <PageHeaderShimmer />
+        <ShimmerBlock className="mx-auto mt-12 h-11 w-40 rounded-full" />
+      </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="mx-auto max-w-md py-24 text-center">
+      <div className="mx-auto flex min-h-[50vh] max-w-md flex-col justify-center py-12 text-center">
         <h1 className="font-serif text-2xl text-stone-100">{title}</h1>
         <p className="mt-3 text-stone-400">
           Sign in to view this page and keep your cart tied to your account.

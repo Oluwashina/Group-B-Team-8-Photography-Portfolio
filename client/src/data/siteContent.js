@@ -47,3 +47,18 @@ export const footerContent = {
   year: 2026,
   text: "Golden Hour Studio. All rights reserved.",
 };
+
+export const shopPageAside = [
+  {
+    title: "Archival prints",
+    body: "Museum-grade paper and color-managed files so your print still looks like the day we shot it.",
+  },
+  {
+    title: "Secure checkout",
+    body: "Payments handled by Stripe. Your card details never touch our servers.",
+  },
+  {
+    title: "Made to order",
+    body: "Each print is produced after you order. Allow a few days for production and shipping.",
+  },
+];

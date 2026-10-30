@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { startCheckout } from "../api/checkout.js";
 import CartLineItem from "../components/CartLineItem.jsx";
-import Footer from "../components/Footer";
 import RequireAuth from "../components/RequireAuth.jsx";
 import ShopPageLayout from "../components/ShopPageLayout.jsx";
+import { CartLinesShimmer, PageHeaderShimmer } from "../components/Shimmer.jsx";
+import { useAuth } from "../context/useAuth.js";
 import { useCart } from "../context/useCart.js";
 import { formatUsd } from "../utils/formatMoney.js";
 
@@ -32,9 +33,12 @@ function CartContent() {
 
   if (items.length === 0) {
     return (
-      <div className="py-8 text-center">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center py-8 text-center">
         <h1 className="font-serif text-3xl text-stone-100">Your cart</h1>
-        <p className="mt-4 text-stone-400">No prints yet.</p>
+        <p className="mt-4 max-w-sm text-stone-400">
+          No prints yet. Browse the gallery and add archival prints when you are
+          ready.
+        </p>
         <Link
           to="/#gallery"
           className="mt-6 inline-block rounded-full bg-[#ddc9a8] px-6 py-2.5 text-sm font-semibold text-[#0a0908] hover:bg-[#c8b08a]"
@@ -97,15 +101,29 @@ function CartContent() {
   );
 }
 
+function CartGate() {
+  const { status } = useAuth();
+
+  if (status === "loading") {
+    return (
+      <>
+        <PageHeaderShimmer />
+        <CartLinesShimmer />
+      </>
+    );
+  }
+
+  return (
+    <RequireAuth title="Sign in to view your cart">
+      <CartContent />
+    </RequireAuth>
+  );
+}
+
 export default function CartPage() {
   return (
-    <>
-      <ShopPageLayout narrow>
-        <RequireAuth title="Sign in to view your cart">
-          <CartContent />
-        </RequireAuth>
-      </ShopPageLayout>
-      <Footer />
-    </>
+    <ShopPageLayout narrow>
+      <CartGate />
+    </ShopPageLayout>
   );
 }

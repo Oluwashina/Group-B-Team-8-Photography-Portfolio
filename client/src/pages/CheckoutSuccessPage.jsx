@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { pollOrderUntilPaid } from "../api/orders.js";
-import Footer from "../components/Footer";
 import OrderStatusBadge from "../components/OrderStatusBadge.jsx";
 import RequireAuth from "../components/RequireAuth.jsx";
 import ShopPageLayout from "../components/ShopPageLayout.jsx";
+import { CheckoutSuccessShimmer } from "../components/Shimmer.jsx";
 import { formatUsd } from "../utils/formatMoney.js";
 
 function SuccessContent() {
@@ -29,28 +29,28 @@ function SuccessContent() {
 
   if (!orderId) {
     return (
-      <>
+      <div className="flex min-h-[50vh] flex-col justify-center text-center">
         <h1 className="font-serif text-2xl text-stone-100">Missing order</h1>
         <Link to="/orders" className="mt-4 inline-block text-[#ddc9a8]">
           View orders
         </Link>
-      </>
+      </div>
     );
   }
 
   if (phase === "loading" || !order) {
     return (
-      <div className="text-center">
-        <h1 className="font-serif text-2xl text-stone-100">Confirming payment…</h1>
-        <p className="mt-3 text-stone-400" role="status">
-          This usually takes a moment while we verify with the payment provider.
+      <div className="flex min-h-[50vh] flex-col justify-center py-8">
+        <CheckoutSuccessShimmer />
+        <p className="sr-only" role="status">
+          Confirming payment
         </p>
       </div>
     );
   }
 
   return (
-    <div className="text-center">
+    <div className="flex min-h-[50vh] flex-col justify-center py-8 text-center">
       <OrderStatusBadge status={order.status} />
       <h1 className="mt-4 font-serif text-3xl text-stone-100">
         {order.status === "paid" ? "Thank you for your order" : "Payment pending"}
@@ -86,13 +86,10 @@ function SuccessContent() {
 
 export default function CheckoutSuccessPage() {
   return (
-    <>
-      <ShopPageLayout narrow>
-        <RequireAuth title="Sign in to view your receipt">
-          <SuccessContent />
-        </RequireAuth>
-      </ShopPageLayout>
-      <Footer />
-    </>
+    <ShopPageLayout narrow>
+      <RequireAuth title="Sign in to view your receipt">
+        <SuccessContent />
+      </RequireAuth>
+    </ShopPageLayout>
   );
 }

@@ -4,6 +4,7 @@ import * as favoritesApi from "../api/favorites.js";
 import { useAuth } from "../context/useAuth.js";
 import { gallerySection } from "../data/siteContent";
 import GalleryCard from "./GalleryCard";
+import { GalleryGridShimmer } from "./Shimmer.jsx";
 import SearchInput from "./SearchInput";
 import SectionHeader from "./SectionHeader";
 
@@ -210,11 +211,7 @@ export default function Gallery() {
         )}
       </div>
 
-      {loadState === "loading" && (
-        <p className="text-center text-stone-400" role="status">
-          Loading gallery…
-        </p>
-      )}
+      {loadState === "loading" && <GalleryGridShimmer />}
 
       {loadState === "error" && (
         <div className="mx-auto max-w-md text-center">

@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { ShimmerBlock } from "./Shimmer.jsx";
 import { useAuth } from "../context/useAuth.js";
 
 function welcomeShort(user) {
@@ -27,8 +28,8 @@ export default function ProfileMenu() {
 
   if (status === "loading") {
     return (
-      <span className="flex h-9 w-9 items-center justify-center text-stone-500">
-        …
+      <span role="status" aria-label="Loading account">
+        <ShimmerBlock className="h-9 w-9 rounded-full" />
       </span>
     );
   }

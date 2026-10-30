@@ -47,12 +47,6 @@ export default function GalleryCard({ item, isSaved, onToggleFavorite }) {
         >
           <span className="sr-only">View print details for {item.captionLabel}</span>
         </Link>
-        <Link
-          to={`/prints/${item.id}`}
-          className="pointer-events-none absolute bottom-3 left-3 z-[2] rounded-full bg-black/55 px-3 py-1.5 text-xs font-medium text-stone-100 opacity-100 backdrop-blur-sm transition group-hover:pointer-events-auto sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100"
-        >
-          View print
-        </Link>
       </div>
     </figure>
   );

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchOrderById } from "../api/orders.js";
-import Footer from "../components/Footer";
 import OrderStatusBadge from "../components/OrderStatusBadge.jsx";
 import RequireAuth from "../components/RequireAuth.jsx";
 import ShopPageLayout from "../components/ShopPageLayout.jsx";
+import { OrderDetailShimmer } from "../components/Shimmer.jsx";
 import { formatUsd } from "../utils/formatMoney.js";
 
 function OrderDetailContent() {
@@ -27,17 +27,17 @@ function OrderDetailContent() {
   }, [id]);
 
   if (loading) {
-    return <p className="text-center text-stone-400">Loading order…</p>;
+    return <OrderDetailShimmer />;
   }
 
   if (!order) {
     return (
-      <>
+      <div className="flex min-h-[50vh] flex-col justify-center">
         <h1 className="font-serif text-2xl text-stone-100">Order not found</h1>
         <Link to="/orders" className="mt-4 inline-block text-[#ddc9a8]">
           All orders
         </Link>
-      </>
+      </div>
     );
   }
 
@@ -94,13 +94,10 @@ function OrderDetailContent() {
 
 export default function OrderDetailPage() {
   return (
-    <>
-      <ShopPageLayout narrow>
-        <RequireAuth title="Sign in to view this order">
-          <OrderDetailContent />
-        </RequireAuth>
-      </ShopPageLayout>
-      <Footer />
-    </>
+    <ShopPageLayout narrow>
+      <RequireAuth title="Sign in to view this order">
+        <OrderDetailContent />
+      </RequireAuth>
+    </ShopPageLayout>
   );
 }

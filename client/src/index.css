@@ -14,3 +14,25 @@
     @apply overflow-x-hidden bg-[#0a0908] font-sans text-stone-100 antialiased;
   }
 }
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@utility animate-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    #1c1917 0%,
+    #1c1917 40%,
+    #292524 50%,
+    #1c1917 60%,
+    #1c1917 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.5s ease-in-out infinite;
+}
