@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (_req, res) => {
   try {
     const { rows } = await pool.query(
-      `SELECT id, src, alt, category, caption_label, caption_text, layout
+      `SELECT id, src, alt, category, caption_label, caption_text, layout, price_cents
        FROM gallery_items
        ORDER BY sort_order ASC, id ASC`,
     );

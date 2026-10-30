@@ -7,5 +7,6 @@ export function rowToGalleryItem(row) {
     captionLabel: row.caption_label,
     captionText: row.caption_text,
     layout: row.layout,
+    priceCents: row.price_cents,
   };
 }

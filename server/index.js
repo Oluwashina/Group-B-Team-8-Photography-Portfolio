@@ -4,8 +4,11 @@ import express from "express";
 import { createSessionMiddleware } from "./config/session.js";
 import pool from "./db/pool.js";
 import authRouter from "./routes/auth.js";
+import checkoutRouter from "./routes/checkout.js";
 import favoritesRouter from "./routes/favorites.js";
 import galleryRouter from "./routes/gallery.js";
+import ordersRouter from "./routes/orders.js";
+import { handleStripeWebhook } from "./routes/stripeWebhook.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3001;
@@ -16,6 +19,12 @@ const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
   .filter(Boolean);
 
 app.set("trust proxy", 1);
+
+app.post(
+  "/api/webhooks/stripe",
+  express.raw({ type: "application/json" }),
+  handleStripeWebhook,
+);
 
 app.use(
   cors({
@@ -37,6 +46,7 @@ app.get("/api/health", async (_req, res) => {
     ok: true,
     service: "golden-hour-studio-api",
     database: "unknown",
+    stripe: Boolean(process.env.STRIPE_SECRET_KEY),
   };
 
   if (!process.env.DATABASE_URL) {
@@ -60,6 +70,8 @@ app.get("/api/health", async (_req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/gallery", galleryRouter);
 app.use("/api/favorites", favoritesRouter);
+app.use("/api/orders", ordersRouter);
+app.use("/api/checkout", checkoutRouter);
 
 app.listen(port, () => {
   console.log(`API listening on http://localhost:${port}`);

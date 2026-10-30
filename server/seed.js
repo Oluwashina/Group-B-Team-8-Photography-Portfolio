@@ -1,6 +1,11 @@
 import "dotenv/config";
 import { galleryItems } from "../client/src/data/galleryItems.js";
+import { printMetaById } from "../client/src/data/printCatalog.js";
 import pool from "./db/pool.js";
+
+function priceCentsForItem(item) {
+  return printMetaById[item.id]?.priceCents ?? 4500;
+}
 
 async function seed() {
   if (!process.env.DATABASE_URL) {
@@ -10,8 +15,8 @@ async function seed() {
 
   const insertText = `
     INSERT INTO gallery_items (
-      id, src, alt, category, caption_label, caption_text, layout, sort_order
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      id, src, alt, category, caption_label, caption_text, layout, sort_order, price_cents
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     ON CONFLICT (id) DO UPDATE SET
       src = EXCLUDED.src,
       alt = EXCLUDED.alt,
@@ -19,7 +24,8 @@ async function seed() {
       caption_label = EXCLUDED.caption_label,
       caption_text = EXCLUDED.caption_text,
       layout = EXCLUDED.layout,
-      sort_order = EXCLUDED.sort_order
+      sort_order = EXCLUDED.sort_order,
+      price_cents = EXCLUDED.price_cents
   `;
 
   for (let i = 0; i < galleryItems.length; i++) {
@@ -33,10 +39,11 @@ async function seed() {
       item.captionText,
       item.layout,
       i,
+      priceCentsForItem(item),
     ]);
   }
 
-  console.log(`Seeded ${galleryItems.length} gallery items.`);
+  console.log(`Seeded ${galleryItems.length} gallery items (with USD prices).`);
   await pool.end();
 }
 
