@@ -1,7 +1,7 @@
 export const navLinks = [
-  { href: "#gallery", label: "Gallery" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#gallery", label: "Gallery" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export const brand = {
@@ -16,8 +16,8 @@ export const heroContent = {
   tagline:
     "We photograph people and places you care about. Warm light, simple frames, and nothing that feels overdone.",
   image: "/assets/images/gallery-01.jpg",
-  primaryCta: { href: "#gallery", label: "Explore work" },
-  secondaryCta: { href: "#contact", label: "Start a project" },
+  primaryCta: { href: "/#gallery", label: "Explore work" },
+  secondaryCta: { href: "/#contact", label: "Start a project" },
 };
 
 export const gallerySection = {

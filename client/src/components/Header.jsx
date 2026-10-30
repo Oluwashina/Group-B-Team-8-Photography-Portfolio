@@ -1,4 +1,6 @@
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/useAuth.js";
+import { useCart } from "../context/useCart.js";
 import { brand, navLinks } from "../data/siteContent";
 
 function displayEmail(email) {
@@ -17,6 +19,39 @@ function welcomeLabel(user) {
   return `Welcome, ${displayEmail(user.email)}`;
 }
 
+function CartNavLink() {
+  const { itemCount } = useCart();
+
+  return (
+    <Link
+      to="/cart"
+      className="relative flex h-9 w-9 items-center justify-center rounded-full text-stone-300 transition hover:bg-white/10 hover:text-stone-100"
+      aria-label={itemCount ? `Cart, ${itemCount} items` : "Cart"}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="h-5 w-5"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+        />
+      </svg>
+      {itemCount > 0 && (
+        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#ddc9a8] px-1 text-[0.625rem] font-bold text-[#0a0908]">
+          {itemCount > 9 ? "9+" : itemCount}
+        </span>
+      )}
+    </Link>
+  );
+}
+
 export default function Header() {
   const { user, status, logout, openAuth } = useAuth();
 
@@ -31,8 +66,8 @@ export default function Header() {
       <div className="pointer-events-auto mx-auto max-w-6xl">
         <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-white/10 bg-[#100e0c]/80 p-3 shadow-lg shadow-black/40 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:rounded-full sm:px-4 sm:py-2">
           <p className="m-0 text-center sm:text-left">
-            <a
-              href="#main-content"
+            <Link
+              to="/"
               className="inline-flex items-center justify-center gap-3 text-stone-100 no-underline transition hover:opacity-90 sm:justify-start"
             >
               <span
@@ -47,7 +82,7 @@ export default function Header() {
                   {brand.subtitle}
                 </span>
               </span>
-            </a>
+            </Link>
           </p>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
             <nav aria-label="Primary" className="w-full sm:w-auto">
@@ -62,12 +97,29 @@ export default function Header() {
                     </a>
                   </li>
                 ))}
+                {user && (
+                  <li>
+                    <NavLink
+                      to="/orders"
+                      className={({ isActive }) =>
+                        `block rounded-full px-3 py-2 text-xs font-medium tracking-wide no-underline transition sm:px-4 sm:text-sm ${
+                          isActive
+                            ? "bg-[#ddc9a8] text-[#0a0908]"
+                            : "text-stone-400 hover:bg-white/10 hover:text-stone-100"
+                        }`
+                      }
+                    >
+                      Orders
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </nav>
             <div
               className="flex flex-wrap items-center justify-center gap-2 border-t border-white/10 pt-2 sm:border-t-0 sm:pt-0"
-              aria-label="Account"
+              aria-label="Account and cart"
             >
+              <CartNavLink />
               {status === "loading" && (
                 <span className="px-2 text-xs text-stone-500">…</span>
               )}
