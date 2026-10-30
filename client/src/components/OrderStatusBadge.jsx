@@ -10,7 +10,7 @@ export default function OrderStatusBadge({ status }) {
 
   return (
     <span
-      className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${styles[key]}`}
+      className={`inline-flex w-fit shrink-0 rounded-full border px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-wider ${styles[key]}`}
     >
       {label}
     </span>

@@ -10,8 +10,7 @@ import { useCart } from "../context/useCart.js";
 import { formatUsd } from "../utils/formatMoney.js";
 
 function CartContent() {
-  const { items, subtotalCents, removeItem, updateQuantity, clearCart } =
-    useCart();
+  const { items, subtotalCents, removeItem, updateQuantity } = useCart();
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
 
@@ -21,14 +20,27 @@ function CartContent() {
     setCheckingOut(true);
     try {
       const { url } = await startCheckout(items);
-      clearCart();
-      window.location.href = url;
+      window.location.assign(url);
     } catch (err) {
       setCheckoutError(
         err instanceof Error ? err.message : "Could not start checkout",
       );
       setCheckingOut(false);
     }
+  }
+
+  if (checkingOut) {
+    return (
+      <div
+        className="flex min-h-[50vh] flex-col items-center justify-center py-12 text-center"
+        role="status"
+        aria-live="polite"
+      >
+        <p className="font-serif text-2xl text-ink">Taking you to secure checkout</p>
+        <p className="mt-3 max-w-sm text-muted">Opening Stripe secure checkout…</p>
+        <div className="mt-8 h-8 w-8 animate-spin rounded-full border-2 border-line border-t-accent" />
+      </div>
+    );
   }
 
   if (items.length === 0) {
